@@ -1,0 +1,13 @@
+apply plugin: "application"
+
+version = '1.0'
+
+mainClassName = "org.hermes.core.App"
+
+jar {
+    manifest.attributes("Main-Class": mainClassName);
+}
+
+dependencies {
+    compile project(":core")
+}
