@@ -1,9 +1,9 @@
 apply plugin: 'idea'
 
-
 allprojects {
     group 'org.hermes'
-
+    version = '0.0.1-SNAPSHOT'
+    group = rootProject.group
     repositories {
         mavenCentral()
         jcenter()
@@ -12,6 +12,7 @@ allprojects {
 
 subprojects {
     apply plugin: 'java'
+    apply plugin: "checkstyle"
 
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
@@ -25,4 +26,13 @@ subprojects {
         testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
         testCompile "org.mockito:mockito-core:2.+"
     }
+
+    checkstyle {
+        toolVersion = '8.41'
+        configFile = rootProject.file('code_quality/checkstyle/checkstyle.xml')
+        ignoreFailures = true
+        showViolations = true
+    }
 }
+
+
