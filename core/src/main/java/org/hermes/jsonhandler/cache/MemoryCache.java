@@ -1,4 +1,4 @@
-package org.hermes.core.cache;
+package org.hermes.jsonhandler.cache;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ public class MemoryCache extends DefaultCache {
 
         Long elementTime = cache.get(element);
 
-        if (elementTime == null || element.getCreationDate() - elementTime > cacheValidInterval) {
+        if (elementTime == null || element.getCreationDate() - elementTime > super.getCacheValidInterval()) {
             cache.put(element, element.getCreationDate());
         } else {
             result = true;

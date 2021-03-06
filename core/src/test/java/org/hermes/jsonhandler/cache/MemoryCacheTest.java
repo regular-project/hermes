@@ -1,14 +1,13 @@
-package org.hermes.core.cache;
+package org.hermes.jsonhandler.cache;
 
 import org.junit.jupiter.api.Test;
 
 import java.util.Date;
-import java.util.Objects;
 
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 public class MemoryCacheTest {
 
@@ -31,7 +30,7 @@ public class MemoryCacheTest {
 
         private final int id;
 
-        public CacheableElementImpl(int id) {
+        CacheableElementImpl(int id) {
             this.id = id;
         }
 
@@ -39,13 +38,15 @@ public class MemoryCacheTest {
         public boolean equals(Object o) {
             if (this == o) return true;
             if (!(o instanceof CacheableElementImpl)) return false;
+
             CacheableElementImpl that = (CacheableElementImpl) o;
+
             return id == that.id;
         }
 
         @Override
         public int hashCode() {
-            return Objects.hash(id);
+            return id;
         }
     }
 }

@@ -1,5 +1,3 @@
-apply plugin: 'idea'
-
 allprojects {
     group 'org.hermes'
     version = '0.0.1-SNAPSHOT'
@@ -11,11 +9,18 @@ allprojects {
 }
 
 subprojects {
+    apply plugin: 'idea'
     apply plugin: 'java'
     apply plugin: "checkstyle"
 
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
+
+    javadoc {
+        options.charSet = 'UTF-8'
+        options.docEncoding = 'UTF-8'
+        options.encoding = 'UTF-8'
+    }
 
     test {
         useJUnitPlatform()
@@ -29,9 +34,8 @@ subprojects {
 
     checkstyle {
         toolVersion = '8.41'
-        configFile = rootProject.file('code_quality/checkstyle/checkstyle.xml')
-        ignoreFailures = true
-        showViolations = true
+        configFile = rootProject.file('/checkstyle/checkstyle.xml')
+        checkstyleTest.enabled = false
     }
 }
 

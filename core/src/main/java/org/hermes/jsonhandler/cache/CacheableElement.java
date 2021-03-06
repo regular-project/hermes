@@ -1,4 +1,4 @@
-package org.hermes.core.cache;
+package org.hermes.jsonhandler.cache;
 
 import java.util.Date;
 
