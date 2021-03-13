@@ -1,6 +1,6 @@
-package org.hermes.jsonhandler.cache;
+package org.hermes.core.cache;
 
-public abstract class DefaultCache {
+abstract class DefaultCache {
 
     private final Long cacheValidInterval;
 
@@ -10,7 +10,7 @@ public abstract class DefaultCache {
 
     abstract boolean isElementInCache(CacheableElement element) throws InterruptedException;
 
-    public Long getCacheValidInterval() {
+    Long getCacheValidInterval() {
         return cacheValidInterval;
     }
 }

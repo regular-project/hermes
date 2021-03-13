@@ -1,27 +1,32 @@
-package org.hermes.jsonhandler.cache;
+package org.hermes.core.cache;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
 
-public class MemoryCache extends DefaultCache {
+class MemoryCache extends DefaultCache {
 
     private final ReentrantLock lock = new ReentrantLock(true);
     private final Map<Object, Long> cache = new HashMap<>();
 
-    public MemoryCache(Long cacheValidInterval) {
+    MemoryCache(Long cacheValidInterval) {
         super(cacheValidInterval);
     }
 
     @Override
-    public boolean isElementInCache(CacheableElement element) {
+    boolean isElementInCache(CacheableElement element) {
         boolean result = false;
 
         lock.lock();
 
         Long elementTime = cache.get(element);
 
-        if (elementTime == null || element.getCreationDate() - elementTime > super.getCacheValidInterval()) {
+        boolean isOldElement = true;
+        if (elementTime != null) {
+            isOldElement = CacheTimeUtils.isOldElement(element, elementTime, super.getCacheValidInterval());
+        }
+
+        if (isOldElement) {
             cache.put(element, element.getCreationDate());
         } else {
             result = true;
