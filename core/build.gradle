@@ -1,4 +1,3 @@
-
 dependencies {
-
+    compile 'redis.clients:jedis:3.5.1'
 }
