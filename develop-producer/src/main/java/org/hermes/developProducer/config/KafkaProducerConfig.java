@@ -7,19 +7,19 @@ import java.util.Properties;
 
 public class KafkaProducerConfig {
 
-    public static Properties getKafkaProducerProperties() {
-        var producerProperties = new Properties();
-
-        String bootstrapServers = "127.0.0.1:9092";
-        producerProperties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapServers);
-
-        //  Set types of value serializers
-        String stringSerializer = StringSerializer.class.getName();
-        producerProperties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, stringSerializer);
-        producerProperties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, stringSerializer);
-
-
-        return producerProperties;
-    }
+//    public static Properties getKafkaProducerProperties() {
+//        var producerProperties = new Properties();
+//
+//        String bootstrapServers = Environment environmen
+//        producerProperties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG,bootstrapServers);
+//
+//        //  Set types of value serializers
+//        String stringSerializer = StringSerializer.class.getName();
+//        producerProperties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, stringSerializer);
+//        producerProperties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, stringSerializer);
+//
+//
+//        return producerProperties;
+//    }
 
 }
