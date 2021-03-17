@@ -6,6 +6,6 @@ public class DevelopProducerApplication {
 
     public static void main(String[] args) {
         var kafkaProducerService = new KafkaProducerService();
-        kafkaProducerService.sendMessageFromProducer();
+        kafkaProducerService.runProducer();
     }
 }
