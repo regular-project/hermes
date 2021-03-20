@@ -1,4 +1,4 @@
-package org.hermes.developProducer;
+package org.hermes.developproducer;
 
 import org.junit.Test;
 

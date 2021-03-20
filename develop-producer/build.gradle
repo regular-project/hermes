@@ -1,8 +1,11 @@
-apply plugin: "application"
+plugins {
+    id "application"
+    id "com.commercehub.gradle.plugin.avro" version "0.99.99"
+}
 
 version = '1.0'
 
-mainClassName = "org.hermes.developProducer.DevelopProducerApplication"
+mainClassName = "org.hermes.developproducer.DevelopProducerApplication"
 
 jar {
     manifest.attributes("Main-Class": mainClassName)
