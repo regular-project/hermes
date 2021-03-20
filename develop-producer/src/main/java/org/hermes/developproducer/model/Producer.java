@@ -12,12 +12,18 @@ import java.util.Properties;
 
 public class Producer {
 
-    public static KafkaProducer<String, HermesRecord> getProducer() {
+    public static KafkaProducer<String, HermesRecord> getProducer() throws Exception {
         Properties props = new Properties();
+        KafkaConfig config = KafkaConfig.getInstance();
+
+        String kafkaServerUrl = config.graspProperty("kafka.server.url");
+        String kafkaServerPort = config.graspProperty("kafka.server.port");
+        String schemaRegistryUrl = config.graspProperty("kafka.schema-registry.url");
+        String schemaRegistryPort = config.graspProperty("kafka.schema-registry.port");
 
         //  Creating Safe Producer
-        props.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, KafkaConfig.KAFKA_SERVER_URL + ":" + KafkaConfig.KAFKA_SERVER_PORT);
-        props.setProperty(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, KafkaConfig.SCHEMA_REGISTRY_URL + ":" + KafkaConfig.SCHEMA_REGISTRY_PORT);
+        props.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServerUrl + ":" + kafkaServerPort);
+        props.setProperty(AbstractKafkaSchemaSerDeConfig.SCHEMA_REGISTRY_URL_CONFIG, schemaRegistryUrl + ":" + schemaRegistryPort);
         props.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
         props.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, KafkaAvroSerializer.class.getName());
         props.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");

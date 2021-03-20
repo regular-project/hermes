@@ -18,8 +18,9 @@ public class KafkaProducerService {
 
     private final Logger logger = LoggerFactory.getLogger(KafkaProducerService.class.getName());
 
-    public void runProducer() {
+    public void runProducer() throws Exception {
         KafkaProducer<String, HermesRecord> producer = Producer.getProducer();
+        KafkaConfig config = KafkaConfig.getInstance();
 
         HermesRecord.Builder hermesBuilder = HermesRecord.newBuilder();
         hermesBuilder.setData("Some big data");
@@ -28,7 +29,9 @@ public class KafkaProducerService {
         hermesBuilder.setFields(fields);
         HermesRecord hermesRecord = hermesBuilder.build();
 
-        ProducerRecord<String, HermesRecord> producerRecord = new ProducerRecord<>(KafkaConfig.TOPIC,KafkaConfig.PRODUCER_KEY, hermesRecord);
+        String topic = config.graspProperty("kafka.producer.topic");
+        String producerKey = config.graspProperty("kafka.producer.key");
+        ProducerRecord<String, HermesRecord> producerRecord = new ProducerRecord<>(topic,producerKey, hermesRecord);
 
         producer.send(producerRecord, (metadata, exception) -> {
             if (exception == null) {
