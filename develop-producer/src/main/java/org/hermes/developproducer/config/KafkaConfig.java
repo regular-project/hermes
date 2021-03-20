@@ -1,14 +1,30 @@
 package org.hermes.developproducer.config;
 
-public class KafkaConfig {
+import org.hermes.core.config.*;
 
-    public static final String TOPIC = "develop-producer";
+import java.io.*;
 
-    public static final String KAFKA_SERVER_URL = "127.0.0.1";
-    public static final int KAFKA_SERVER_PORT = 9092;
+public class KafkaConfig extends BaseConfig {
 
-    public static final String PRODUCER_KEY = "develop-producer";
+    private static volatile KafkaConfig kafkaConfig;
 
-    public static final String SCHEMA_REGISTRY_URL = "http://localhost";
-    public static final int SCHEMA_REGISTRY_PORT = 8081;
+    private KafkaConfig() {
+        super("application.properties", "CONFIG_PATH");
+        if (kafkaConfig != null) {
+            throw new RuntimeException("User getInstance() method to get the single instance of this class.");
+        }
+    }
+
+    public static KafkaConfig getInstance() throws IOException {
+        if (kafkaConfig == null) {
+            synchronized (KafkaConfig.class) {
+                if (kafkaConfig == null) {
+                    kafkaConfig = new KafkaConfig();
+                    kafkaConfig.initProperties();
+                }
+            }
+        }
+
+        return kafkaConfig;
+    }
 }
