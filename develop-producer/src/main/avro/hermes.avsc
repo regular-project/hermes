@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "org.hermes.developProducer.avro",
+  "namespace": "org.avro",
   "name": "HermesRecord",
   "version": "1",
   "fields": [
