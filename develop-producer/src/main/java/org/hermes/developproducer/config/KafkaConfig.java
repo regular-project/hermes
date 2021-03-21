@@ -1,10 +1,11 @@
 package org.hermes.developproducer.config;
 
-import org.hermes.core.config.*;
 
-import java.io.*;
+import org.hermes.core.config.BaseConfig;
 
-public class KafkaConfig extends BaseConfig {
+import java.io.IOException;
+
+public final class KafkaConfig extends BaseConfig {
 
     private static volatile KafkaConfig kafkaConfig;
 

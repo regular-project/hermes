@@ -10,7 +10,7 @@ import org.hermes.developproducer.config.KafkaConfig;
 
 import java.util.Properties;
 
-public class DefaultDevelopProducer {
+public final class DefaultDevelopProducer {
 
     public static KafkaProducer<String, HermesRecord> getProducer() throws Exception {
         Properties props = new Properties();

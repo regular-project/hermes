@@ -31,13 +31,18 @@ public class ProduceService {
 
         String topic = config.graspProperty("kafka.producer.topic");
         String producerKey = config.graspProperty("kafka.producer.key");
-        ProducerRecord<String, HermesRecord> producerRecord = new ProducerRecord<>(topic,producerKey, hermesRecord);
+        ProducerRecord<String, HermesRecord> producerRecord = new ProducerRecord<>(topic, producerKey, hermesRecord);
 
         producer.send(producerRecord, (metadata, exception) -> {
             if (exception == null) {
-                logger.info("Data was successfully sended" + "\n"  +
-                        "Topic: " + metadata.topic() + "\n" +
-                        "Timestamp: " + metadata.timestamp() + "\n"
+                logger.info("Data was successfully sended"
+                        + "\n"
+                        + "Topic: "
+                        + metadata.topic()
+                        + "\n"
+                        + "Timestamp: "
+                        + metadata.timestamp()
+                        + "\n"
                 );
             } else {
                 exception.printStackTrace();
