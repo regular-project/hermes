@@ -1,7 +1,9 @@
 package org.hermes.core.config;
 
-import java.io.*;
-import java.util.*;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class BaseConfig {
 

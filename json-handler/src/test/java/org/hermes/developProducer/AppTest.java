@@ -1,10 +1,10 @@
-package org.hermes.developproducer;
+package org.hermes.developProducer;
 
 import org.junit.Test;
 
 import static junit.framework.TestCase.assertEquals;
 
-public class DevelopProducerApplicationTest {
+public class AppTest {
 
     @Test
     public void testGetMessage() {

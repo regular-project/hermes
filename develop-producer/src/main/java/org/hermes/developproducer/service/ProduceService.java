@@ -6,7 +6,7 @@ import org.avro.Enum_type;
 import org.avro.Field;
 import org.avro.HermesRecord;
 import org.hermes.developproducer.config.KafkaConfig;
-import org.hermes.developproducer.model.Producer;
+import org.hermes.developproducer.producer.DefaultDevelopProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -14,12 +14,12 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class KafkaProducerService {
+public class ProduceService {
 
-    private final Logger logger = LoggerFactory.getLogger(KafkaProducerService.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(ProduceService.class.getName());
 
     public void runProducer() throws Exception {
-        KafkaProducer<String, HermesRecord> producer = Producer.getProducer();
+        KafkaProducer<String, HermesRecord> producer = DefaultDevelopProducer.getProducer();
         KafkaConfig config = KafkaConfig.getInstance();
 
         HermesRecord.Builder hermesBuilder = HermesRecord.newBuilder();
