@@ -12,6 +12,8 @@ import java.util.Properties;
 
 public final class DefaultDevelopProducer {
 
+    private DefaultDevelopProducer() { }
+
     public static KafkaProducer<String, HermesRecord> getProducer() throws Exception {
         Properties props = new Properties();
         KafkaConfig config = KafkaConfig.getInstance();
