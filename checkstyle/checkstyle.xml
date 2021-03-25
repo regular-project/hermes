@@ -22,12 +22,10 @@
 
 <module name="Checker">
 
-    <!--
-        If you set the basedir property below, then all reported file
-        names will be relative to the specified directory. See
-        https://checkstyle.org/config.html#Checker
-        <property name="basedir" value="${basedir}"/>
-    -->
+<!--    If you set the basedir property below, then all reported file-->
+<!--    names will be relative to the specified directory. See-->
+<!--    https://checkstyle.org/config.html#Checker-->
+<!--    <property name="basedir" value="${basedir}"/>-->
 
     <property name="severity" value="error"/>
 
@@ -42,13 +40,8 @@
 
     <!-- https://checkstyle.org/config_filters.html#SuppressionFilter -->
     <module name="SuppressionFilter">
-        <property name="file" value="checkstyle/suppressions.xml"/>
-        <property name="optional" value="true"/>
-    </module>
-
-    <module name="SuppressionSingleFilter">
-        <property name="checks" value="HideUtilityClassConstructor"/>
-        <property name="files" value="DevelopProducerApplication.java"/>
+        <property name="file" value="${config_loc}/suppressions.xml"/>
+        <property name="optional" value="false"/>
     </module>
 
     <!-- Checks that property files contain the same keys.         -->
