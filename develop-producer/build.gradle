@@ -1,0 +1,15 @@
+plugins {
+    id "application"
+}
+
+version = '1.0'
+
+mainClassName = "org.hermes.developproducer.DevelopProducerApplication"
+
+jar {
+    manifest.attributes("Main-Class": mainClassName)
+}
+
+dependencies {
+    compile project(":core")
+}
