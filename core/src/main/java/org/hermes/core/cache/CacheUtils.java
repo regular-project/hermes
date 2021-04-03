@@ -1,8 +1,8 @@
 package org.hermes.core.cache;
 
-final class CacheTimeUtils {
+final class CacheUtils {
 
-    private CacheTimeUtils() {
+    private CacheUtils() {
     }
 
     static boolean isOldElement(CacheableElement element, Long time, Long cacheValidInterval) {

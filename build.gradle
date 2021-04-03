@@ -51,6 +51,7 @@ subprojects {
         toolVersion = '8.41'
         configFile = rootProject.file('./checkstyle/checkstyle.xml')
         configDirectory = rootProject.file('./checkstyle')
+        checkstyleMain.source = "src/main/java"
         checkstyleTest.enabled = false
     }
 }
