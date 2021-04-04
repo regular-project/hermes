@@ -5,9 +5,8 @@ import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.avro.HermesRecord;
+import org.hermes.core.avro.HermesRecord;
 import org.hermes.developproducer.config.KafkaConfig;
-
 import java.util.Properties;
 
 public final class DefaultDevelopProducer {

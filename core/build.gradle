@@ -1,7 +1,19 @@
+import com.github.davidmc24.gradle.plugin.avro.GenerateAvroJavaTask
+
 plugins {
-    id "com.commercehub.gradle.plugin.avro" version "0.99.99"
+    id "com.github.davidmc24.gradle.plugin.avro" version "1.0.0"
 }
 
 dependencies {
-    compile 'redis.clients:jedis:3.5.1'
+    implementation 'redis.clients:jedis:3.5.1'
+    implementation "org.apache.avro:avro:1.10.0"
+}
+
+def generateAvro = tasks.register("generateAvro", GenerateAvroJavaTask) {
+    source("src/main/resources/avro")
+    outputDir = file("build/generated-main-avro-java")
+}
+
+tasks.named("compileJava").configure {
+    source(generateAvro)
 }

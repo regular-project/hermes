@@ -1,0 +1,42 @@
+{
+  "type": "record",
+  "namespace": "org.hermes.core.avro",
+  "name": "ExtractionResult",
+  "version": "1",
+  "fields": [
+    {"name": "extractedFields",
+     "type": {
+       "type": "array",
+       "items": {
+          "name": "ExtractionField",
+          "type": "record",
+          "fields": [
+            {
+              "name": "output_name",
+              "type": "string",
+              "doc": "Name of the returning value"
+            },
+            {
+              "name": "output_type",
+              "type": {
+                "type": "enum",
+                "name": "EnumType",
+                "symbols": [
+                  "SINGLE",
+                  "MULTIPLE"
+                ]
+              },
+              "default": "MULTIPLE",
+              "doc": "Type of the extracted fields"
+            },
+            {
+              "name": "output_value",
+              "type": "string",
+              "doc": "Value"
+            }
+          ]
+       }
+     }
+    }
+  ]
+}

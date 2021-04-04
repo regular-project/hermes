@@ -28,7 +28,7 @@ public class BaseConfig {
         if (configPath != null) {
             inputStream = new FileInputStream(configPath);
         } else {
-            inputStream = getClass().getResourceAsStream(propertiesResourceName);
+            inputStream = getClass().getClassLoader().getResourceAsStream(propertiesResourceName);
         }
 
         properties.load(inputStream);

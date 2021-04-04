@@ -2,9 +2,9 @@ package org.hermes.developproducer.service;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.avro.Enum_type;
-import org.avro.Field;
-import org.avro.HermesRecord;
+import org.hermes.core.avro.EnumType;
+import org.hermes.core.avro.Field;
+import org.hermes.core.avro.HermesRecord;
 import org.hermes.developproducer.config.KafkaConfig;
 import org.hermes.developproducer.producer.DefaultDevelopProducer;
 import org.slf4j.Logger;
@@ -14,9 +14,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 
-public class ProduceService {
+public class ProducerService {
 
-    private final Logger logger = LoggerFactory.getLogger(ProduceService.class.getName());
+    private final Logger logger = LoggerFactory.getLogger(ProducerService.class.getName());
 
     public void runProducer() throws Exception {
         KafkaProducer<String, HermesRecord> producer = DefaultDevelopProducer.getProducer();
@@ -25,7 +25,7 @@ public class ProduceService {
         HermesRecord.Builder hermesBuilder = HermesRecord.newBuilder();
         hermesBuilder.setData("Some big data");
         List<Field> fields = new LinkedList<>();
-        fields.add(new Field("name", Enum_type.SINGLE, "name"));
+        fields.add(new Field("name", EnumType.SINGLE, "name"));
         hermesBuilder.setFields(fields);
         HermesRecord hermesRecord = hermesBuilder.build();
 
@@ -50,7 +50,6 @@ public class ProduceService {
         });
 
         producer.flush();
-        producer.close();
     }
 
 

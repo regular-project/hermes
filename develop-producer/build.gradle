@@ -10,6 +10,12 @@ jar {
     manifest.attributes("Main-Class": mainClassName)
 }
 
+sourceSets {
+    java {
+
+    }
+}
+
 dependencies {
-    compile project(":core")
+    implementation project(":core")
 }

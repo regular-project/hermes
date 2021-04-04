@@ -1,6 +1,6 @@
 {
   "type": "record",
-  "namespace": "org.avro",
+  "namespace": "org.hermes.core.avro",
   "name": "HermesRecord",
   "version": "1",
   "fields": [
@@ -27,7 +27,7 @@
               "name": "output_type",
               "type": {
                 "type": "enum",
-                "name": "Enum_type",
+                "name": "EnumType",
                 "symbols": [
                   "SINGLE",
                   "MULTIPLE"
