@@ -1,17 +1,12 @@
 package org.hermes.developproducer.service;
 
-import org.apache.kafka.clients.producer.KafkaProducer;
-import org.apache.kafka.clients.producer.ProducerRecord;
-import org.hermes.core.avro.EnumType;
-import org.hermes.core.avro.Field;
-import org.hermes.core.avro.HermesRecord;
-import org.hermes.developproducer.config.KafkaConfig;
-import org.hermes.developproducer.producer.DefaultDevelopProducer;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.apache.kafka.clients.producer.*;
+import org.hermes.core.avro.*;
+import org.hermes.developproducer.config.*;
+import org.hermes.developproducer.producer.*;
+import org.slf4j.*;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 
 public class ProducerService {
@@ -22,12 +17,19 @@ public class ProducerService {
         KafkaProducer<String, HermesRecord> producer = DefaultDevelopProducer.getProducer();
         KafkaConfig config = KafkaConfig.getInstance();
 
-        HermesRecord.Builder hermesBuilder = HermesRecord.newBuilder();
-        hermesBuilder.setData("Some big data");
+//        HermesRecord.Builder hermesBuilder = HermesRecord.newBuilder();
+//        hermesBuilder.setData("Some big data");
+//        List<Field> fields = new LinkedList<>();
+//        fields.add(new Field("name", EnumType.SINGLE, "name"));
+//        hermesBuilder.setFields(fields);
+//        HermesRecord hermesRecord = hermesBuilder.build();
+
+        String json = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"address\":{\"street\":"
+                + "\"21 2nd Street\",\"city\":\"New York\",\"postalCode\":\"10021-3100\","
+                + "\"coordinates\":{\"latitude\":40.7250387,\"longitude\":-73.9932568}}}";
         List<Field> fields = new LinkedList<>();
-        fields.add(new Field("name", EnumType.SINGLE, "name"));
-        hermesBuilder.setFields(fields);
-        HermesRecord hermesRecord = hermesBuilder.build();
+        fields.add(new Field("/address/city", EnumType.SINGLE, "city"));
+        HermesRecord hermesRecord = new HermesRecord(json, fields);
 
         String topic = config.graspProperty("kafka.producer.topic");
         String producerKey = config.graspProperty("kafka.producer.key");
