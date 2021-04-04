@@ -5,11 +5,11 @@ import redis.clients.jedis.Transaction;
 
 import java.util.List;
 
-class GlobalCache extends DefaultCache {
+class RedisCache extends DefaultCache {
 
     private final Jedis jedis;
 
-    GlobalCache(Long cacheValidInterval, Jedis jedis) {
+    RedisCache(Long cacheValidInterval, Jedis jedis) {
         super(cacheValidInterval);
         this.jedis = jedis;
     }
@@ -26,7 +26,7 @@ class GlobalCache extends DefaultCache {
 
         boolean isOldElement = true;
         if (elementTime != null) {
-            isOldElement = CacheTimeUtils.isOldElement(
+            isOldElement = CacheUtils.isOldElement(
                     element,
                     Long.valueOf(elementTime),
                     super.getCacheValidInterval()
