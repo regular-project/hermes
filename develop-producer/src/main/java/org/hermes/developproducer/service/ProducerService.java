@@ -28,7 +28,7 @@ public class ProducerService {
                 + "\"21 2nd Street\",\"city\":\"New York\",\"postalCode\":\"10021-3100\","
                 + "\"coordinates\":{\"latitude\":40.7250387,\"longitude\":-73.9932568}}}";
         List<Field> fields = new LinkedList<>();
-        fields.add(new Field("/address/city", EnumType.SINGLE, "city"));
+        fields.add(new Field("/firstName", EnumType.SINGLE, "name"));
         HermesRecord hermesRecord = new HermesRecord(json, fields);
 
         String topic = config.graspProperty("kafka.producer.topic");

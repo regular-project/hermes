@@ -32,11 +32,13 @@ public class JsonDataExtractor implements DataExtractor {
 
         for (Field field : record.getFields()) {
             JsonNode selectedValue = node.at(field.getSelector());
+
             ExtractionField extractionField = new ExtractionField(
                     field.getOutputName(),
                     field.getOutputType(),
                     selectedValue.asText()
             );
+
             extractionFieldList.add(extractionField);
         }
 

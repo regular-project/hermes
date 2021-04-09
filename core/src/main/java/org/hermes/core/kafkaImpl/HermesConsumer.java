@@ -31,7 +31,7 @@ public class HermesConsumer extends KafkaConsumer<String, HermesRecord> implemen
 
             for (ConsumerRecord<String, HermesRecord> record: records) {
                 ExtractionResult extractionResult = dataExtractor.extract(record);
-                logger.info(String.valueOf(extractionResult));
+                System.out.println(extractionResult);
             }
 
             this.commitSync();
