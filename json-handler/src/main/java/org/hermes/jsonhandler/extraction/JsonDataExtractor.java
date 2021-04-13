@@ -13,11 +13,11 @@ public class JsonDataExtractor implements DataExtractor {
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Override
-    public ExtractionResult extract(ConsumerRecord<String, HermesRecord> record) {
-        ExtractionResult extractionResult = null;
+    public HermesEgressRecord extract(ConsumerRecord<String, HermesIngressRecord> record) {
+        HermesEgressRecord extractionResult = null;
 
         try {
-            HermesRecord hermesRecord = record.value();
+            HermesIngressRecord hermesRecord = record.value();
             extractionResult = extractJson(hermesRecord);
         } catch (JsonProcessingException e) {
             e.printStackTrace();
@@ -26,7 +26,7 @@ public class JsonDataExtractor implements DataExtractor {
         return extractionResult;
     }
 
-    private ExtractionResult extractJson(HermesRecord record) throws JsonProcessingException {
+    private HermesEgressRecord extractJson(HermesIngressRecord record) throws JsonProcessingException {
         List<ExtractionField> extractionFieldList = new ArrayList<>(record.getFields().size());
         JsonNode node = mapper.readTree(record.getData());
 
@@ -42,6 +42,6 @@ public class JsonDataExtractor implements DataExtractor {
             extractionFieldList.add(extractionField);
         }
 
-        return new ExtractionResult(extractionFieldList);
+        return new HermesEgressRecord(extractionFieldList);
     }
 }

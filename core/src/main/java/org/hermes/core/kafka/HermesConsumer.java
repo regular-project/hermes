@@ -1,4 +1,4 @@
-package org.hermes.core.kafkaImpl;
+package org.hermes.core.kafka;
 
 import org.apache.kafka.clients.consumer.*;
 import org.hermes.core.avro.*;
@@ -9,7 +9,7 @@ import java.time.*;
 import java.util.*;
 
 
-public class HermesConsumer extends KafkaConsumer<String, HermesRecord> implements Runnable {
+public class HermesConsumer extends KafkaConsumer<String, HermesIngressRecord> implements Runnable {
 
     private final Logger logger = LoggerFactory.getLogger(HermesConsumer.class.getName());
 
@@ -27,11 +27,11 @@ public class HermesConsumer extends KafkaConsumer<String, HermesRecord> implemen
         this.subscribe(Collections.singleton(topic));
 
         while (true) {
-            ConsumerRecords<String, HermesRecord> records = this.poll(Duration.ofMillis(1000));
+            ConsumerRecords<String, HermesIngressRecord> records = this.poll(Duration.ofMillis(1000));
 
-            for (ConsumerRecord<String, HermesRecord> record: records) {
-                ExtractionResult extractionResult = dataExtractor.extract(record);
-                System.out.println(extractionResult);
+            for (ConsumerRecord<String, HermesIngressRecord> record : records) {
+                HermesEgressRecord extractionResult = dataExtractor.extract(record);
+                logger.info(extractionResult.toString());
             }
 
             this.commitSync();

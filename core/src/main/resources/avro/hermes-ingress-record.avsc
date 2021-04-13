@@ -1,7 +1,7 @@
 {
   "type": "record",
   "namespace": "org.hermes.core.avro",
-  "name": "HermesRecord",
+  "name": "HermesIngressRecord",
   "version": "1",
   "fields": [
     {
