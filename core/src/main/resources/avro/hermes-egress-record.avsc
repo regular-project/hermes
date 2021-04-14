@@ -1,13 +1,14 @@
 {
   "type": "record",
   "namespace": "org.hermes.core.avro",
-  "name": "ExtractionResult",
+  "name": "HermesEgressRecord",
   "version": "1",
   "fields": [
-    {"name": "extractedFields",
-     "type": {
-       "type": "array",
-       "items": {
+    {
+      "name": "extractedFields",
+      "type": {
+        "type": "array",
+        "items": {
           "name": "ExtractionField",
           "type": "record",
           "fields": [
