@@ -8,7 +8,7 @@ abstract class DefaultCache {
         this.cacheValidInterval = cacheValidInterval;
     }
 
-    abstract boolean isElementInCache(CacheableElement element) throws InterruptedException;
+    abstract boolean isElementInCache(CacheableElement element);
 
     Long getCacheValidInterval() {
         return cacheValidInterval;

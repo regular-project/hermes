@@ -10,7 +10,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-class GlobalCacheTest {
+class RedisCacheTest {
 
     @Test
     public void testIsElementInCache() {
@@ -26,21 +26,21 @@ class GlobalCacheTest {
         Jedis jedis = mock(Jedis.class);
         Transaction transaction = mock(Transaction.class);
 
-        GlobalCache globalCache = new GlobalCache(cacheValidInterval, jedis);
+        RedisCache redisCache = new RedisCache(cacheValidInterval, jedis);
 
         when(jedis.get(cacheableElementHashcode)).thenReturn(null);
         when(jedis.multi()).thenReturn(transaction);
-        assertFalse(globalCache.isElementInCache(cacheableElement));
+        assertFalse(redisCache.isElementInCache(cacheableElement));
 
         when(jedis.get(cacheableElementHashcode)).thenReturn(String.valueOf(now));
         when(jedis.multi()).thenReturn(transaction);
-        assertTrue(globalCache.isElementInCache(cacheableElement));
+        assertTrue(redisCache.isElementInCache(cacheableElement));
 
         when(cacheableElement.getCreationDate()).thenReturn(now + cacheValidInterval * 2);
         when(jedis.multi()).thenReturn(transaction);
-        assertFalse(globalCache.isElementInCache(cacheableElement));
+        assertFalse(redisCache.isElementInCache(cacheableElement));
 
         when(transaction.exec()).thenReturn(null);
-        assertTrue(globalCache.isElementInCache(cacheableElement));
+        assertTrue(redisCache.isElementInCache(cacheableElement));
     }
 }

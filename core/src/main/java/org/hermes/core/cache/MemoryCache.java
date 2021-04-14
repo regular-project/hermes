@@ -23,7 +23,7 @@ class MemoryCache extends DefaultCache {
 
         boolean isOldElement = true;
         if (elementTime != null) {
-            isOldElement = CacheTimeUtils.isOldElement(element, elementTime, super.getCacheValidInterval());
+            isOldElement = CacheUtils.isOldElement(element, elementTime, super.getCacheValidInterval());
         }
 
         if (isOldElement) {

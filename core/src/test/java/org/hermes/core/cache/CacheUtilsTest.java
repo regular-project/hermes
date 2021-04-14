@@ -1,13 +1,13 @@
 package org.hermes.core.cache;
 
-import java.util.Date;
+import org.junit.jupiter.api.*;
 
-import org.junit.jupiter.api.Test;
+import java.util.*;
+
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
-class CacheTimeUtilsTest {
+class CacheUtilsTest {
 
     @Test
     public void testIsOldElement() {
@@ -17,10 +17,10 @@ class CacheTimeUtilsTest {
         CacheableElementImpl cacheableElement = mock(CacheableElementImpl.class);
         cacheableElement.setId(1);
 
-        assertFalse(CacheTimeUtils.isOldElement(cacheableElement, now, cacheValidInterval));
+        assertFalse(CacheUtils.isOldElement(cacheableElement, now, cacheValidInterval));
 
         when(cacheableElement.getCreationDate()).thenReturn(now + cacheValidInterval * 2);
-        assertTrue(CacheTimeUtils.isOldElement(cacheableElement, now, cacheValidInterval));
+        assertTrue(CacheUtils.isOldElement(cacheableElement, now, cacheValidInterval));
     }
 
 }
