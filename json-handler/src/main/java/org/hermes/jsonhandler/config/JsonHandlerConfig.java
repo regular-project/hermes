@@ -1,8 +1,9 @@
 package org.hermes.jsonhandler.config;
 
-import org.hermes.core.config.*;
 
-import java.io.*;
+import org.hermes.core.config.BaseConfig;
+
+import java.io.IOException;
 
 public final class JsonHandlerConfig extends BaseConfig {
 

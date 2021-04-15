@@ -1,13 +1,16 @@
 package org.hermes.jsonhandler.service;
 
-import io.confluent.kafka.serializers.*;
-import org.apache.kafka.clients.consumer.*;
-import org.apache.kafka.common.serialization.*;
-import org.hermes.core.kafka.*;
-import org.hermes.jsonhandler.config.*;
-import org.hermes.jsonhandler.extraction.*;
 
-import java.util.*;
+import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
+import io.confluent.kafka.serializers.KafkaAvroDeserializer;
+import io.confluent.kafka.serializers.KafkaAvroDeserializerConfig;
+import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.StringDeserializer;
+import org.hermes.core.kafka.HermesConsumer;
+import org.hermes.jsonhandler.config.JsonHandlerConfig;
+import org.hermes.jsonhandler.extraction.JsonDataExtractor;
+
+import java.util.Properties;
 
 public class JsonHandlerService {
 

@@ -1,6 +1,7 @@
 package org.hermes.jsonhandler;
 
-import org.hermes.jsonhandler.service.*;
+
+import org.hermes.jsonhandler.service.JsonHandlerService;
 
 public class JsonHandlerApplication {
 

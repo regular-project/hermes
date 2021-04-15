@@ -5,7 +5,7 @@ import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.hermes.core.avro.HermesRecord;
+import org.hermes.core.avro.HermesIngressRecord;
 import org.hermes.developproducer.config.KafkaConfig;
 import java.util.Properties;
 
@@ -13,7 +13,7 @@ public final class DefaultDevelopProducer {
 
     private DefaultDevelopProducer() { }
 
-    public static KafkaProducer<String, HermesRecord> getProducer() throws Exception {
+    public static KafkaProducer<String, HermesIngressRecord> getProducer() throws Exception {
         Properties props = new Properties();
         KafkaConfig config = KafkaConfig.getInstance();
 

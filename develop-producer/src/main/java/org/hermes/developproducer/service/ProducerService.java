@@ -1,20 +1,25 @@
 package org.hermes.developproducer.service;
 
-import org.apache.kafka.clients.producer.*;
-import org.hermes.core.avro.*;
-import org.hermes.developproducer.config.*;
-import org.hermes.developproducer.producer.*;
-import org.slf4j.*;
 
-import java.util.*;
+import org.apache.kafka.clients.producer.KafkaProducer;
+import org.apache.kafka.clients.producer.ProducerRecord;
+import org.hermes.core.avro.EnumType;
+import org.hermes.core.avro.Field;
+import org.hermes.core.avro.HermesIngressRecord;
+import org.hermes.developproducer.config.KafkaConfig;
+import org.hermes.developproducer.producer.DefaultDevelopProducer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.util.LinkedList;
+import java.util.List;
 
 public class ProducerService {
 
     private final Logger logger = LoggerFactory.getLogger(ProducerService.class.getName());
 
     public void runProducer() throws Exception {
-        KafkaProducer<String, HermesRecord> producer = DefaultDevelopProducer.getProducer();
+        KafkaProducer<String, HermesIngressRecord> producer = DefaultDevelopProducer.getProducer();
         KafkaConfig config = KafkaConfig.getInstance();
 
 //        HermesRecord.Builder hermesBuilder = HermesRecord.newBuilder();
@@ -29,11 +34,15 @@ public class ProducerService {
                 + "\"coordinates\":{\"latitude\":40.7250387,\"longitude\":-73.9932568}}}";
         List<Field> fields = new LinkedList<>();
         fields.add(new Field("/firstName", EnumType.SINGLE, "name"));
-        HermesRecord hermesRecord = new HermesRecord(json, fields);
+        HermesIngressRecord hermesRecord = new HermesIngressRecord(json, fields);
 
         String topic = config.graspProperty("kafka.producer.topic");
         String producerKey = config.graspProperty("kafka.producer.key");
-        ProducerRecord<String, HermesRecord> producerRecord = new ProducerRecord<>(topic, producerKey, hermesRecord);
+        ProducerRecord<String, HermesIngressRecord> producerRecord = new ProducerRecord<>(
+                topic,
+                producerKey,
+                hermesRecord
+        );
 
         producer.send(producerRecord, (metadata, exception) -> {
             if (exception == null) {
