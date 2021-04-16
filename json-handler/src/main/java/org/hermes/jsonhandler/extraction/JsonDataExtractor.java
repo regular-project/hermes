@@ -10,10 +10,12 @@ import org.hermes.core.avro.Field;
 import org.hermes.core.avro.HermesEgressRecord;
 import org.hermes.core.avro.HermesIngressRecord;
 import org.hermes.core.extraction.DataExtractor;
+import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Component
 public class JsonDataExtractor implements DataExtractor {
 
     private final ObjectMapper mapper = new ObjectMapper();

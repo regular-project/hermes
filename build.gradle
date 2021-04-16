@@ -36,15 +36,9 @@ subprojects {
     }
 
     dependencies {
+        implementation group: 'redis.clients', name: 'jedis', version: '3.5.1'
         implementation group: 'org.apache.avro', name: 'avro', version: '1.10.1'
         implementation group: 'io.confluent', name: 'kafka-avro-serializer', version: '6.1.0'
-        implementation group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.30'
-
-        testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
-        testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'
-
-        testImplementation group: 'org.mockito', name: 'mockito-core', version: '3.9.0'
-        testImplementation group: 'junit', name: 'junit', version: '4.12'
     }
 
     checkstyle {

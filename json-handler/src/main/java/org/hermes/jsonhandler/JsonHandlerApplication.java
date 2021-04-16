@@ -1,12 +1,13 @@
 package org.hermes.jsonhandler;
 
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import org.hermes.jsonhandler.service.JsonHandlerService;
-
+@SpringBootApplication
 public class JsonHandlerApplication {
 
-    public static void main(String[] args) throws Exception {
-        JsonHandlerService jsonHandlerService = new JsonHandlerService();
-        jsonHandlerService.start();
+    public static void main(String[] args) {
+        SpringApplication.run(JsonHandlerApplication.class, args);
     }
+
 }

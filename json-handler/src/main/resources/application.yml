@@ -1,0 +1,9 @@
+hermes:
+  kafka:
+    bootstrap-servers: localhost:9092
+    schema-registry-url: http://localhost:8081
+    consumer:
+      group-id: json-handler
+      topic: json-extraction
+    producer:
+      topic: egress-data
