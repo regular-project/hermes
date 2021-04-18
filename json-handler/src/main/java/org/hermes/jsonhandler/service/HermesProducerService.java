@@ -4,8 +4,6 @@ import org.apache.kafka.clients.producer.ProducerRecord;
 import org.hermes.core.avro.HermesEgressRecord;
 import org.hermes.core.cache.CombinedCache;
 import org.hermes.core.extraction.HermesEgressRecordCacheable;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.event.EventListener;
 import org.springframework.kafka.core.KafkaTemplate;
