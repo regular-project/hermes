@@ -3,9 +3,9 @@ package org.hermes.developproducer.service;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
-import org.hermes.core.avro.EnumType;
 import org.hermes.core.avro.Field;
 import org.hermes.core.avro.HermesIngressRecord;
+import org.hermes.core.avro.OutputType;
 import org.hermes.developproducer.producer.DefaultDevelopProducer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +24,15 @@ public class ProducerService {
                 + "\"21 2nd Street\",\"city\":\"New York\",\"postalCode\":\"10021-3100\","
                 + "\"coordinates\":{\"latitude\":40.7250387,\"longitude\":-73.9932568}}}";
         List<Field> fields = new LinkedList<>();
-        fields.add(new Field("/firstName", EnumType.SINGLE, "name"));
+
+        Field field = Field.newBuilder().
+                setOutputName("name").
+                setOutputType(OutputType.SINGLE).
+                setSelector("/firstName").
+                build();
+
+        fields.add(field);
+
         HermesIngressRecord hermesRecord = new HermesIngressRecord(json, fields);
 
         ProducerRecord<String, HermesIngressRecord> producerRecord = new ProducerRecord<>(

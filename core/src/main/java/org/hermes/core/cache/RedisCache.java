@@ -35,7 +35,7 @@ class RedisCache extends DefaultCache {
 
         if (isOldElement) {
             Transaction transaction = jedis.multi();
-            transaction.set(elementHash, elementTime);
+            transaction.set(elementHash, String.valueOf(element.getCreationDate()));
             List<Object> res = transaction.exec();
 
             if (res == null) {
