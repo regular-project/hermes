@@ -27,13 +27,26 @@
               "name": "output_type",
               "type": {
                 "type": "enum",
-                "name": "EnumType",
+                "name": "OutputType",
                 "symbols": [
                   "SINGLE",
                   "MULTIPLE"
                 ]
               },
               "default": "MULTIPLE",
+              "doc": "Enum defines object will be single object or array"
+            },
+            {
+              "name": "output_topic",
+              "default": "FINAL",
+              "type": {
+                "type": "enum",
+                "name": "OutputTopic",
+                "symbols": [
+                  "TEMPORAL",
+                  "FINAL"
+                ]
+              },
               "doc": "Enum defines object will be single object or array"
             },
             {
