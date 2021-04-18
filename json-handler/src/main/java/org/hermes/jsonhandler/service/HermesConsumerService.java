@@ -4,7 +4,7 @@ import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.hermes.core.avro.HermesEgressRecord;
 import org.hermes.core.avro.HermesIngressRecord;
 import org.hermes.core.extraction.DataExtractor;
-import org.hermes.jsonhandler.cache.HermesEgressRecordCacheable;
+import org.hermes.core.extraction.HermesEgressRecordCacheable;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.kafka.annotation.KafkaListener;
 import org.springframework.stereotype.Service;

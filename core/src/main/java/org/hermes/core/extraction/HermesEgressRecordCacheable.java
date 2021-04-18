@@ -1,4 +1,4 @@
-package org.hermes.jsonhandler.cache;
+package org.hermes.core.extraction;
 
 import org.hermes.core.avro.HermesEgressRecord;
 import org.hermes.core.cache.CacheableElement;
@@ -30,3 +30,4 @@ public class HermesEgressRecordCacheable extends CacheableElement {
         return Objects.hash(hermesEgressRecord);
     }
 }
+
