@@ -14,13 +14,13 @@ import org.springframework.stereotype.Service;
 @Service
 public class HermesProducerService {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(HermesProducerService.class);
-    private final CombinedCache combinedCache;
-    private final KafkaTemplate<String, HermesEgressRecord> kafkaTemplate;
     @Value("${hermes.kafka.producer.topic}")
     private String topic;
     @Value("${hermes.kafka.producer.key}")
     private String producerKey;
+
+    private final CombinedCache combinedCache;
+    private final KafkaTemplate<String, HermesEgressRecord> kafkaTemplate;
 
     public HermesProducerService(CombinedCache combinedCache, KafkaTemplate<String, HermesEgressRecord> kafkaTemplate) {
         this.combinedCache = combinedCache;
