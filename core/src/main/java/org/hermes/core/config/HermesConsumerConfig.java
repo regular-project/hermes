@@ -1,4 +1,4 @@
-package org.hermes.jsonhandler.config;
+package org.hermes.core.config;
 
 
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;

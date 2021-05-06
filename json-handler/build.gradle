@@ -9,9 +9,6 @@ version = '0.0.1'
 dependencies {
     implementation project(":core")
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
-    implementation group: 'org.springframework.kafka', name: 'spring-kafka'
-    implementation group: 'io.micrometer', name: 'micrometer-core'
-    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

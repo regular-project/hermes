@@ -7,3 +7,9 @@ hermes:
       topic: json-extraction
     producer:
       topic: egress-data
+      key: json-handler
+  cache:
+    valid-interval: 15000
+    redis:
+      host: localhost
+      port: 6379
