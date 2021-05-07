@@ -33,12 +33,14 @@ public class HermesDevelopProducerService {
 
     @PostConstruct
     private void sendMessage() {
-        String json = "{\"firstName\":\"John\",\"lastName\":\"Doe\",\"address\":{\"street\":"
+        String json = "{\"firstName\":\"John\","
+                + "\"cars\":[\"Ford\",\"BMW\",\"Fiat\"],"
+                + "\"lastName\":\"Doe\",\"address\":{\"street\":"
                 + "\"21 2nd Street\",\"city\":\"New York\",\"postalCode\":\"10021-3100\","
                 + "\"coordinates\":{\"latitude\":40.7250387,\"longitude\":-73.9932568}}}";
 
         List<Field> fieldList = new LinkedList<>();
-        Field field = new Field("/firstName", OutputType.SINGLE, OutputTopic.FINAL,"name");
+        Field field = new Field("/cars", OutputType.SINGLE, OutputTopic.FINAL,"name");
         fieldList.add(field);
 
         HermesIngressRecord hermesIngressRecord = HermesIngressRecord.newBuilder()
