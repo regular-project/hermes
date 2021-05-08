@@ -5,7 +5,6 @@ import org.hermes.core.avro.HermesIngressRecord;
 import org.hermes.core.avro.OutputTopic;
 import org.hermes.core.avro.OutputType;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.stereotype.Service;
@@ -40,7 +39,7 @@ public class HermesDevelopProducerService {
                 + "\"coordinates\":{\"latitude\":40.7250387,\"longitude\":-73.9932568}}}";
 
         List<Field> fieldList = new LinkedList<>();
-        Field field = new Field("/cars", OutputType.SINGLE, OutputTopic.FINAL,"name");
+        Field field = new Field("/cars", OutputType.SINGLE, OutputTopic.FINAL, "name");
         fieldList.add(field);
 
         HermesIngressRecord hermesIngressRecord = HermesIngressRecord.newBuilder()
