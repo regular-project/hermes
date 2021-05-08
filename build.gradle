@@ -25,6 +25,7 @@ subprojects {
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
 
+
     javadoc {
         options.charSet = 'UTF-8'
         options.docEncoding = 'UTF-8'
