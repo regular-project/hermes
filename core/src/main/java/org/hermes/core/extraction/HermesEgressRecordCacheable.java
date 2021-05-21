@@ -20,7 +20,7 @@ public class HermesEgressRecordCacheable extends CacheableElement {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof HermesEgressRecordCacheable)) return false;
+        if (o == null || getClass() != o.getClass()) return false;
         HermesEgressRecordCacheable that = (HermesEgressRecordCacheable) o;
         return Objects.equals(hermesEgressRecord, that.hermesEgressRecord);
     }
@@ -30,4 +30,3 @@ public class HermesEgressRecordCacheable extends CacheableElement {
         return Objects.hash(hermesEgressRecord);
     }
 }
-

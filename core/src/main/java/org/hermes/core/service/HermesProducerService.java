@@ -1,4 +1,4 @@
-package org.hermes.jsonhandler.service;
+package org.hermes.core.service;
 
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.hermes.core.avro.HermesEgressRecord;
@@ -33,6 +33,7 @@ public class HermesProducerService {
                     producerKey,
                     hermesEgressRecordCacheable.getHermesEgressRecord()
             );
+
             kafkaTemplate.send(producerRecord);
         }
     }

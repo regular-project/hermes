@@ -1,10 +1,12 @@
 package org.hermes.developproducer;
 
-import org.hermes.developproducer.service.ProducerService;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+@SpringBootApplication
 public class DevelopProducerApplication {
 
     public static void main(String[] args) {
-        new ProducerService().runProducer();
+        SpringApplication.run(DevelopProducerApplication.class, args);
     }
 }

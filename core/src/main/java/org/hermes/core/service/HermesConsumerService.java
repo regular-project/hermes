@@ -1,4 +1,4 @@
-package org.hermes.jsonhandler.service;
+package org.hermes.core.service;
 
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.hermes.core.avro.HermesEgressRecord;

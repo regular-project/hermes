@@ -1,4 +1,4 @@
-package org.hermes.jsonhandler.config;
+package org.hermes.core.config;
 
 import org.hermes.core.cache.CombinedCache;
 import org.hermes.core.cache.CombinedCacheFactory;
