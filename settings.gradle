@@ -1,3 +1,4 @@
 rootProject.name = 'hermes'
 
-include 'json-handler','develop-producer','core'
+include 'json-handler','html-handler', 'develop-producer','core'
+

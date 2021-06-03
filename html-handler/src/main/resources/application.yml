@@ -3,11 +3,11 @@ hermes:
     bootstrap-servers: localhost:9092
     schema-registry-url: http://localhost:8081
     consumer:
-      group-id: json-handler
-      topic: json-extraction
+      group-id: hmtl-handler
+      topic: html-extraction
     producer:
-      topic: egress-json-data
-      key: json-handler
+      topic: egress-html-data
+      key: html-handler
   cache:
     valid-interval: 15000
     redis:
