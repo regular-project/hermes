@@ -1,6 +1,10 @@
 package org.hermes.htmlhandler.extraction;
 
-import org.hermes.core.avro.*;
+import org.hermes.core.avro.HermesEgressRecord;
+import org.hermes.core.avro.HermesIngressRecord;
+import org.hermes.core.avro.ExtractionField;
+import org.hermes.core.avro.Field;
+import org.hermes.core.avro.OutputType;
 import org.hermes.core.extraction.DataExtractor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -32,7 +36,7 @@ public class HtmlDataExtractor implements DataExtractor {
             } else {
                 List<String> strList = new ArrayList<>();
 
-                elements.stream().parallel().forEach(element -> strList.add(element.text()));
+                elements.forEach(element -> strList.add(element.text()));
 
                 extractionFieldBuilder.setOutputValue(strList.toString());
             }

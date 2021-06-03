@@ -3,7 +3,11 @@ package org.hermes.jsonhandler.extraction;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hermes.core.avro.*;
+import org.hermes.core.avro.HermesEgressRecord;
+import org.hermes.core.avro.HermesIngressRecord;
+import org.hermes.core.avro.ExtractionField;
+import org.hermes.core.avro.Field;
+import org.hermes.core.avro.OutputType;
 import org.hermes.core.extraction.DataExtractor;
 import org.springframework.stereotype.Component;
 
@@ -30,7 +34,7 @@ public class JsonDataExtractor implements DataExtractor {
             ExtractionField extractionField = new ExtractionField(
                     field.getOutputName(),
                     field.getOutputType(),
-                    selectedValue.asText()
+                    selectedValue.toString()
             );
 
             extractionFieldList.add(extractionField);
