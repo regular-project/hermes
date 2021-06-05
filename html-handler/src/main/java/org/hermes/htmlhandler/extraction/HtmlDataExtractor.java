@@ -8,11 +8,13 @@ import org.hermes.core.avro.OutputType;
 import org.hermes.core.extraction.DataExtractor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class HtmlDataExtractor implements DataExtractor {
@@ -34,11 +36,9 @@ public class HtmlDataExtractor implements DataExtractor {
 
                 extractionFieldBuilder.setOutputValue(firstStr);
             } else {
-                List<String> strList = new ArrayList<>();
+                String outputValue = elements.stream().map(Element::text).collect(Collectors.toList()).toString();
 
-                elements.forEach(element -> strList.add(element.text()));
-
-                extractionFieldBuilder.setOutputValue(strList.toString());
+                extractionFieldBuilder.setOutputValue(outputValue);
             }
 
             extractionFieldList.add(extractionFieldBuilder.build());
