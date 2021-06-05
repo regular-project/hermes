@@ -15,7 +15,7 @@ public class HermesExtractorService {
 
     private final DataExtractor dataExtractor;
 
-    private final static Logger log = LoggerFactory.getLogger(HermesExtractorService.class);
+    private static final Logger LOG = LoggerFactory.getLogger(HermesExtractorService.class);
 
     public HermesExtractorService(DataExtractor dataExtractor) {
         this.dataExtractor = dataExtractor;
@@ -28,7 +28,7 @@ public class HermesExtractorService {
             HermesIngressRecord hermesRecord = record.value();
             extractionResult = dataExtractor.extract(hermesRecord);
         } catch (IOException e) {
-            log.error("Error occurred in {} during extracting the data.", dataExtractor.getClass().toString(), e.getCause());
+            LOG.error("Error occurred in {} during extracting the data.", dataExtractor.getClass().toString(), e);
         }
 
 
