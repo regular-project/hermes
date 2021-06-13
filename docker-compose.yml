@@ -21,7 +21,7 @@ services:
       KAFKA_OPTS: "-javaagent:/jmx-reporter/jmx_prometheus_javaagent.jar=0.0.0.0:9030:/etc/prometheus-config/zookeeper.yml"
     volumes:
       - ./prometheus/config/zookeeper.yml:/etc/prometheus-config/zookeeper.yml
-      - ./prometheus/jmx-exporter:/jmx-reporter
+      - ./prometheus/jmx-reporter:/jmx-reporter
 
   broker:
     image: confluentinc/cp-server:6.1.0
@@ -55,7 +55,7 @@ services:
       CONFLUENT_SUPPORT_CUSTOMER_ID: 'anonymous'
     volumes:
       - ./prometheus/config/kafka.yml:/etc/prometheus-config/kafka.yml
-      - ./prometheus/jmx-exporter:/jmx-reporter
+      - ./prometheus/jmx-reporter:/jmx-reporter
 
 
   schema-registry:

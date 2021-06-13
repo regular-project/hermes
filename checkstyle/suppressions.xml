@@ -6,4 +6,5 @@
 <suppressions>
     <suppress checks="HideUtilityClassConstructor" files="DevelopProducerApplication.java"/>
     <suppress checks="HideUtilityClassConstructor" files="JsonHandlerApplication.java"/>
+    <suppress checks="HideUtilityClassConstructor" files="HtmlHandlerApplication.java"/>
 </suppressions>
