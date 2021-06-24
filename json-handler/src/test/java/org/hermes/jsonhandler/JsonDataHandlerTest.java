@@ -42,7 +42,7 @@ class JsonDataHandlerTest {
     }
 
     private HermesIngressRecord prepareHermesIngressRecord(OutputType outputType) {
-        Field field = new Field("/members", outputType, OutputTopic.FINAL, "textValue");
+        Field field = new Field("/members","text", outputType, OutputTopic.FINAL, "textValue");
 
         return HermesIngressRecord.newBuilder()
                 .setData("{\n" +

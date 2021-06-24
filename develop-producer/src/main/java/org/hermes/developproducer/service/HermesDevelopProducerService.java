@@ -1,9 +1,6 @@
 package org.hermes.developproducer.service;
 
-import org.hermes.core.avro.Field;
-import org.hermes.core.avro.HermesIngressRecord;
-import org.hermes.core.avro.OutputTopic;
-import org.hermes.core.avro.OutputType;
+import org.hermes.core.avro.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
@@ -12,7 +9,7 @@ import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.PostConstruct;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -32,20 +29,62 @@ public class HermesDevelopProducerService {
 
     @PostConstruct
     private void sendMessage() {
-        String json = "{\"firstName\":\"John\","
-                + "\"cars\":[\"Ford\",\"BMW\",\"Fiat\"],"
-                + "\"lastName\":\"Doe\",\"address\":{\"street\":"
-                + "\"21 2nd Street\",\"city\":\"New York\",\"postalCode\":\"10021-3100\","
-                + "\"coordinates\":{\"latitude\":40.7250387,\"longitude\":-73.9932568}}}";
+        String html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
+                "<html>\n" +
+                "    <head>\n" +
+                "        <title>Документ</title>\n" +
+                "    </head>\n" +
+                "    <body>\n" +
+                "        <div id=\"dataKeeper\">Data</div>\n" +
+                "        <ul>\n" +
+                "            <li style=\"background-color:red\">Осторожно</li>\n" +
+                "            <li class=\"info\">Информация</li>\n" +
+                "        </ul>\n" +
+                "        <ul>\n" +
+                "            <li style=\"background-color:red\">Осторожно</li>\n" +
+                "            <li class=\"info\">Информация</li>\n" +
+                "        </ul>\n" +
+                "        <ul>\n" +
+                "            <li style=\"background-color:red\">Осторожно</li>\n" +
+                "            <li class=\"info\">Информация</li>\n" +
+                "        </ul>\n" +
+                "        <div id=\"footer\">Made in Russia &copy;</div>\n" +
+                "    </body>\n" +
+                "</html>\n";
 
-        List<Field> fieldList = new LinkedList<>();
-        Field field = new Field("/cars", OutputType.SINGLE, OutputTopic.FINAL, "name");
-        fieldList.add(field);
+        ExtractingParams extractingParams = new ExtractingParams();
+
+        List<ScrapingField> scrapingFieldList = new ArrayList<>();
+
+        ScrapingField scrapingFieldAttr = new ScrapingField();
+
+        scrapingFieldAttr.setOutputName("style");
+        scrapingFieldAttr.setAttributeName("style");
+        scrapingFieldAttr.setOutputType(OutputType.SINGLE);
+        scrapingFieldAttr.setSelector("li[style]");
+        scrapingFieldAttr.setSelectorParam(SelectorParam.ATTR);
+
+        ScrapingField scrapingFieldText = new ScrapingField();
+
+        scrapingFieldText.setOutputName("info");
+        scrapingFieldText.setAttributeName(null);
+        scrapingFieldText.setOutputType(OutputType.SINGLE);
+        scrapingFieldText.setSelector("li.info");
+        scrapingFieldText.setSelectorParam(SelectorParam.TEXT);
+
+        scrapingFieldList.add(scrapingFieldAttr);
+        scrapingFieldList.add(scrapingFieldText);
+
+        extractingParams.setParentNode("ul");
+        extractingParams.setRecordType(RecordType.NEW);
+        extractingParams.setScrapingFields(scrapingFieldList);
 
         HermesIngressRecord hermesIngressRecord = HermesIngressRecord.newBuilder()
-                .setData(json)
-                .setFields(fieldList)
+                .setData(html)
+                .setExtractingParams(extractingParams)
+                .setConstantFields(new ArrayList<>())
                 .build();
+
 
         kafkaTemplate.send(topic, producerKey, hermesIngressRecord);
 

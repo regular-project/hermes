@@ -5,59 +5,122 @@
   "version": "1",
   "fields": [
     {
-      "name": "data",
-      "type": "string",
-      "doc": "The data which will be scraping from",
-      "default": ""
+      "name": "Data",
+      "doc": "Contains source code",
+      "type": "string"
     },
     {
-      "name": "fields",
+      "name": "ExtractingParams",
+      "doc": "Contains properties that tell how data will be processed",
+      "type": {
+        "type": "record",
+        "name": "ExtractingParams",
+        "fields": [
+          {
+            "name": "RecordType",
+            "doc": "Defines is need to analyze record for the new products",
+            "type": {
+              "type": "enum",
+              "name": "RecordType",
+              "symbols": [
+                "NEW",
+                "RESTOCK"
+              ]
+            },
+            "default": "NEW"
+          },
+          {
+            "name": "ParentNode",
+            "doc": "Selector path to parent element that will be used to define extracted values",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "ScrapingFields",
+            "doc": "The array of the fields that describes rules of processing data",
+            "type": {
+              "type": "array",
+              "items": {
+                "name": "ScrapingField",
+                "type": "record",
+                "fields": [
+                  {
+                    "name": "OutputName",
+                    "doc": "Name of the output field",
+                    "type": "string"
+                  },
+                  {
+                    "name": "Selector",
+                    "doc": "Selector is the rule showing how the core will try to get the desired field",
+                    "type": "string"
+                  },
+                  {
+                    "name": "SelectorParam",
+                    "doc": "Pointer from where need to scrape value",
+                    "type": {
+                      "type": "enum",
+                      "name": "SelectorParam",
+                      "symbols": [
+                        "TEXT",
+                        "ATTR"
+                      ]
+                    },
+                    "default": "TEXT"
+                  },
+                  {
+                    "name": "AttributeName",
+                    "docs": "Tell from what attribute we need to take value",
+                    "type": [
+                      "null",
+                      "string"
+                    ],
+                    "default": null
+                  },
+                  {
+                    "name": "OutputType",
+                    "doc": "Defines object will be single type or array",
+                    "type": {
+                      "type": "enum",
+                      "name": "OutputType",
+                      "symbols": [
+                        "SINGLE",
+                        "MULTIPLE"
+                      ]
+                    },
+                    "default": "MULTIPLE"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConstantFields",
+      "doc": "Fields is designed for transferring some settings properties",
       "type": {
         "type": "array",
-        "items": {
-          "name": "Field",
-          "type": "record",
-          "fields": [
-            {
-              "name": "selector",
-              "type": "string",
-              "doc": "Selector is the rule showing how the core will try to get the desired field"
-            },
-            {
-              "name": "output_type",
-              "type": {
-                "type": "enum",
-                "name": "OutputType",
-                "symbols": [
-                  "SINGLE",
-                  "MULTIPLE"
-                ]
+        "items": [
+          {
+            "type": "record",
+            "name": "ConstantField",
+            "fields": [
+              {
+                "name": "Key",
+                "type": "string"
               },
-              "default": "MULTIPLE",
-              "doc": "Enum defines object will be single object or array"
-            },
-            {
-              "name": "output_topic",
-              "default": "FINAL",
-              "type": {
-                "type": "enum",
-                "name": "OutputTopic",
-                "symbols": [
-                  "TEMPORAL",
-                  "FINAL"
-                ]
-              },
-              "doc": "Enum defines object will be single object or array"
-            },
-            {
-              "name": "output_name",
-              "type": "string",
-              "doc": "Name of the output field"
-            }
-          ]
-        }
-      },
-      "doc": "The array of the fields, that describe the output of analysed data"
+              {
+                "name": "Value",
+                "type": "string"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

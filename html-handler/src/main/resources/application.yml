@@ -6,7 +6,7 @@ hermes:
       group-id: hmtl-handler
       topic: html-extraction
     producer:
-      topic: egress-html-data
+      topic: analyzer-restock-service
       key: html-handler
   cache:
     valid-interval: 15000

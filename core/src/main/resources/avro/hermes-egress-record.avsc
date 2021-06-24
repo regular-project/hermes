@@ -5,38 +5,77 @@
   "version": "1",
   "fields": [
     {
-      "name": "extractedFields",
+      "name": "RecordType",
+      "doc": "Defines is need to analyze record for the new products",
+      "type": {
+        "type": "enum",
+        "name": "RecordType",
+        "symbols": [
+          "NEW",
+          "RESTOCK"
+        ]
+      },
+      "default": "NEW"
+    },
+    {
+      "name": "ExtractedProducts",
       "type": {
         "type": "array",
         "items": {
-          "name": "ExtractionField",
-          "type": "record",
-          "fields": [
-            {
-              "name": "output_name",
-              "type": "string",
-              "doc": "Name of the returning value"
-            },
-            {
-              "name": "output_type",
-              "type": {
-                "type": "enum",
-                "name": "OutputType",
-                "symbols": [
-                  "SINGLE",
-                  "MULTIPLE"
-                ]
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "ExtractedField",
+            "fields": [
+              {
+                "name": "output_name",
+                "type": "string",
+                "doc": "Name of the returning value"
               },
-              "default": "MULTIPLE",
-              "doc": "Enum defines object will be single object or array"
-            },
-            {
-              "name": "output_value",
-              "type": "string",
-              "doc": "Value"
-            }
-          ]
+              {
+                "name": "output_type",
+                "type": {
+                  "type": "enum",
+                  "name": "OutputType",
+                  "symbols": [
+                    "SINGLE",
+                    "MULTIPLE"
+                  ]
+                },
+                "default": "MULTIPLE",
+                "doc": "Enum defines object will be single object or array"
+              },
+              {
+                "name": "output_value",
+                "type": "string",
+                "doc": "Value"
+              }
+            ]
+          }
         }
+      }
+    },
+    {
+      "name": "ConstantFields",
+      "doc": "Fields is designed for transferring some settings properties",
+      "type": {
+        "type": "array",
+        "items": [
+          {
+            "type": "record",
+            "name": "ConstantField",
+            "fields": [
+              {
+                "name": "Key",
+                "type": "string"
+              },
+              {
+                "name": "Value",
+                "type": "string"
+              }
+            ]
+          }
+        ]
       }
     }
   ]

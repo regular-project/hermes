@@ -1,10 +1,6 @@
 package org.hermes.htmlhandler.extraction;
 
-import org.hermes.core.avro.HermesEgressRecord;
-import org.hermes.core.avro.HermesIngressRecord;
-import org.hermes.core.avro.ExtractionField;
-import org.hermes.core.avro.Field;
-import org.hermes.core.avro.OutputType;
+import org.hermes.core.avro.*;
 import org.hermes.core.extraction.DataExtractor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -21,29 +17,69 @@ public class HtmlDataExtractor implements DataExtractor {
 
     @Override
     public HermesEgressRecord extract(HermesIngressRecord record) {
-        List<ExtractionField> extractionFieldList = new ArrayList<>(record.getFields().size());
+        List<List<ExtractedField>> listOfProducts = new ArrayList<>();
+
         Document document = Jsoup.parse(record.getData());
+        ExtractingParams extractingParams = record.getExtractingParams();
+        Elements parentsElements = document.select(extractingParams.getParentNode());
 
-        for (Field field : record.getFields()) {
-            ExtractionField.Builder extractionFieldBuilder = ExtractionField.newBuilder()
-                .setOutputName(field.getOutputName())
-                .setOutputType(field.getOutputType());
+        if (extractingParams.getRecordType().equals(RecordType.NEW)) {
+            for (Element parentElement: parentsElements) {
+                List<ExtractedField> extractedFieldList = extractFieldsFromElement(parentElement, extractingParams);
 
-            Elements elements = document.select(field.getSelector());
-
-            if (field.getOutputType().equals(OutputType.SINGLE)) {
-                String firstStr = elements.get(0).text();
-
-                extractionFieldBuilder.setOutputValue(firstStr);
-            } else {
-                String outputValue = elements.stream().map(Element::text).collect(Collectors.toList()).toString();
-
-                extractionFieldBuilder.setOutputValue(outputValue);
+                listOfProducts.add(extractedFieldList);
             }
+        } else {
+            List<ExtractedField> extractedFieldList = extractFieldsFromElement(document, extractingParams);
 
-            extractionFieldList.add(extractionFieldBuilder.build());
+            listOfProducts.add(extractedFieldList);
         }
 
-        return new HermesEgressRecord(extractionFieldList);
+        return new HermesEgressRecord(extractingParams.getRecordType(), listOfProducts, record.getConstantFields());
+    }
+
+    private List<ExtractedField> extractFieldsFromElement(Element element, ExtractingParams extractingParams) {
+        List<ExtractedField> extractedFieldList = new ArrayList<>(extractingParams.getScrapingFields().size());
+
+        for (ScrapingField scrapingField: extractingParams.getScrapingFields()) {
+            String extractedValue;
+
+            if (scrapingField.getOutputType().equals(OutputType.MULTIPLE)) {
+                Elements elements =  element.select(scrapingField.getSelector());
+
+                if (scrapingField.getSelectorParam().equals(SelectorParam.ATTR)) {
+
+                    extractedValue = elements.stream()
+                            .map((element1) -> element1.attr(scrapingField.getAttributeName()))
+                            .collect(Collectors.toList())
+                            .toString();
+                } else {
+                    extractedValue = elements.stream()
+                            .map(Element::text)
+                            .collect(Collectors.toList())
+                            .toString();
+                }
+            } else {
+                if (scrapingField.getSelectorParam().equals(SelectorParam.ATTR)) {
+                    extractedValue = element
+                            .select(scrapingField.getSelector())
+                            .get(0)
+                            .attr(scrapingField.getAttributeName());
+                } else {
+                    extractedValue = element
+                            .select(scrapingField.getSelector())
+                            .get(0)
+                            .text();
+                }
+            }
+
+            extractedFieldList.add(new ExtractedField(
+                    scrapingField.getOutputName(),
+                    scrapingField.getOutputType(),
+                    extractedValue)
+            );
+        }
+
+        return extractedFieldList;
     }
 }

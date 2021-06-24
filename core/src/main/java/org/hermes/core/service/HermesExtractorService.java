@@ -27,7 +27,7 @@ public class HermesExtractorService {
         try {
             HermesIngressRecord hermesRecord = record.value();
             extractionResult = dataExtractor.extract(hermesRecord);
-        } catch (IOException e) {
+        } catch (Exception e) {
             LOG.error("Error occurred in {} during extracting the data.", dataExtractor.getClass().toString(), e);
         }
 

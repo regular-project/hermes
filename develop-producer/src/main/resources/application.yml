@@ -3,5 +3,5 @@ hermes:
     bootstrap-servers: localhost:9092
     schema-registry-url: http://localhost:8081
     producer:
-      topic: json-extraction
+      topic: html-extraction
       key: develop-producer

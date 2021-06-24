@@ -8,5 +8,5 @@ import java.io.IOException;
 @Component
 public interface DataExtractor {
 
-    HermesEgressRecord extract(HermesIngressRecord record) throws IOException;
+    HermesEgressRecord extract(HermesIngressRecord record) throws Exception;
 }
