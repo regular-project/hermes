@@ -1,5 +1,6 @@
 plugins {
     id 'idea'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 allprojects {
@@ -21,6 +22,11 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'checkstyle'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        jcenter()
+    }
 
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
@@ -47,6 +53,12 @@ subprojects {
         configDirectory = rootProject.file('./checkstyle')
         checkstyleMain.source = "src/main/java"
         checkstyleTest.enabled = false
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE")
+        }
     }
 }
 

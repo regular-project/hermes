@@ -10,6 +10,7 @@ import org.springframework.util.concurrent.ListenableFutureCallback;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Service
@@ -29,7 +30,7 @@ public class HermesDevelopProducerService {
 
     @PostConstruct
     private void sendMessage() {
-        String html = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
+        String data = "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.01 Transitional//EN\" \"http://www.w3.org/TR/html4/loose.dtd\">\n" +
                 "<html>\n" +
                 "    <head>\n" +
                 "        <title>Документ</title>\n" +
@@ -52,39 +53,13 @@ public class HermesDevelopProducerService {
                 "    </body>\n" +
                 "</html>\n";
 
-        ExtractingParams extractingParams = new ExtractingParams();
-
-        List<ScrapingField> scrapingFieldList = new ArrayList<>();
-
-        ScrapingField scrapingFieldAttr = new ScrapingField();
-
-        scrapingFieldAttr.setOutputName("style");
-        scrapingFieldAttr.setAttributeName("style");
-        scrapingFieldAttr.setOutputType(OutputType.SINGLE);
-        scrapingFieldAttr.setSelector("li[style]");
-        scrapingFieldAttr.setSelectorParam(SelectorParam.ATTR);
-
-        ScrapingField scrapingFieldText = new ScrapingField();
-
-        scrapingFieldText.setOutputName("info");
-        scrapingFieldText.setAttributeName(null);
-        scrapingFieldText.setOutputType(OutputType.SINGLE);
-        scrapingFieldText.setSelector("li.info");
-        scrapingFieldText.setSelectorParam(SelectorParam.TEXT);
-
-        scrapingFieldList.add(scrapingFieldAttr);
-        scrapingFieldList.add(scrapingFieldText);
-
-        extractingParams.setParentNode("ul");
-        extractingParams.setRecordType(RecordType.NEW);
-        extractingParams.setScrapingFields(scrapingFieldList);
+        ExtractingParams extractingParams = getExtractingParams();
 
         HermesIngressRecord hermesIngressRecord = HermesIngressRecord.newBuilder()
-                .setData(html)
+                .setData(data)
                 .setExtractingParams(extractingParams)
-                .setConstantFields(new ArrayList<>())
+                .setConstantsFields(Collections.emptyList())
                 .build();
-
 
         kafkaTemplate.send(topic, producerKey, hermesIngressRecord);
 
@@ -103,4 +78,30 @@ public class HermesDevelopProducerService {
             }
         });
     }
+
+    private ExtractingParams getExtractingParams() {
+        ParentNodeDataType recordType = ParentNodeDataType.SINGLE;
+        List<ScrapingField> scrapingFieldList = getScrapingField();
+
+        return ExtractingParams.newBuilder()
+                .setParentNodeDataType(recordType)
+                .setParentNode(null)
+                .setScrapingFields(scrapingFieldList)
+                .build();
+    }
+
+    private List<ScrapingField> getScrapingField() {
+        List<ScrapingField> scrapingFieldList = new ArrayList<>();
+
+        ScrapingField scrapingField = ScrapingField.newBuilder()
+                .setOutputName("name")
+                .setOutputType(OutputType.SINGLE)
+                .setSelector("li.info")
+                .build();
+
+        scrapingFieldList.add(scrapingField);
+
+        return scrapingFieldList;
+    }
+
 }

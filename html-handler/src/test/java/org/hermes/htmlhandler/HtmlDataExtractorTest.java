@@ -1,62 +1,52 @@
 package org.hermes.htmlhandler;
 
-import org.hermes.core.avro.*;
+import org.hermes.core.avro.ExtractedField;
+import org.hermes.core.avro.HermesIngressRecord;
+import org.hermes.core.avro.ParentNodeDataType;
+import org.hermes.core.utils.exception.DefaultExtractorException;
 import org.hermes.htmlhandler.extraction.HtmlDataExtractor;
 import org.junit.jupiter.api.Test;
 
-import java.util.Collections;
+import java.util.List;
 
+import static org.hermes.htmlhandler.HtmlDataExtractorUtil.extractValueByNameField;
 import static org.junit.jupiter.api.Assertions.*;
 
 class HtmlDataExtractorTest {
 
-//    @Test
-//    public void testIsExtractorReturnsSingleValue() {
-//        HtmlDataExtractor htmlDataExtractor = new HtmlDataExtractor();
-//
-//        HermesIngressRecord hermesIngressRecord = prepareHermesIngressRecord(OutputType.SINGLE);
-//
-//        ExtractionField testedExtractionField = htmlDataExtractor.extract(hermesIngressRecord)
-//                .getExtractedFields()
-//                .get(0);
-//
-//        assertNotNull(testedExtractionField.getOutputValue());
-//
-//        assertFalse(testedExtractionField.getOutputValue().split(",").length != 1);
-//    }
-//
-//    @Test
-//    public void testIsExtractorReturnsMultipleValue() {
-//        HtmlDataExtractor htmlDataExtractor = new HtmlDataExtractor();
-//
-//        HermesIngressRecord hermesIngressRecord = prepareHermesIngressRecord(OutputType.MULTIPLE);
-//
-//        ExtractionField testedExtractionField = htmlDataExtractor.extract(hermesIngressRecord)
-//                .getExtractedFields()
-//                .get(0);
-//
-//        assertNotNull(testedExtractionField.getOutputValue());
-//
-//        assertTrue(testedExtractionField.getOutputValue().split(",").length != 1);
-//    }
-//
-//    private HermesIngressRecord prepareHermesIngressRecord(OutputType outputType) {
-//        Field field = new Field("p.classTest", "text",outputType, OutputTopic.FINAL, "textValue");
-//
-//        return HermesIngressRecord.newBuilder()
-//                .setData("<!DOCTYPE html>\n" +
-//                        "<html>\n" +
-//                        "<head>\n" +
-//                        "<meta charset=\"UTF-8\">\n" +
-//                        "</head>\n" +
-//                        "  <body>\n" +
-//                        "    <h1>This is test for Hermes Html Extractor</h1>\n" +
-//                        "    <p class=\"classTest\">Some first text</p>\n" +
-//                        "    <p class=\"classTest\">Some second text</p>\n" +
-//                        "    <p class=\"classTest\">Some third text</p>\n" +
-//                        "  </body>\n" +
-//                        "</html>")
-//                .setFields(Collections.singletonList(field))
-//                .build();
-//    }
+    @Test
+    public void testFunctionalityOfSingleDataType() throws DefaultExtractorException {
+        HtmlDataExtractor htmlDataExtractor = new HtmlDataExtractor();
+
+        HermesIngressRecord hermesIngressRecord = HtmlDataExtractorUtil.prepareHermesIngressRecord(ParentNodeDataType.SINGLE);
+
+        List<ExtractedField> extractedFieldList = htmlDataExtractor.extract(hermesIngressRecord)
+                .getExtractedProducts()
+                .get(0);
+
+        String singleTextValue = extractValueByNameField(extractedFieldList, "testSingleTextValue");
+        assertEquals(singleTextValue,"Test of single text value functionality");
+
+        String multipleTextValue = extractValueByNameField(extractedFieldList, "testMultipleTextValue");
+        assertTrue(multipleTextValue.split(",").length > 1);
+
+        String singleAttrValue = extractValueByNameField(extractedFieldList, "testSingleAttrValue");
+        assertEquals(singleAttrValue,"1");
+
+        String multipleAttrValue = extractValueByNameField(extractedFieldList, "testMultipleAttrValue");
+        assertTrue(multipleAttrValue.split(",").length > 1);
+    }
+
+    @Test
+    public void testFunctionalityOfListDataType() throws DefaultExtractorException {
+        HtmlDataExtractor htmlDataExtractor = new HtmlDataExtractor();
+
+        HermesIngressRecord hermesIngressRecord = HtmlDataExtractorUtil.prepareHermesIngressRecord(ParentNodeDataType.LIST);
+
+        List<List<ExtractedField>> itemsExtractedFields = htmlDataExtractor.extract(hermesIngressRecord)
+                .getExtractedProducts();
+
+        assertEquals(itemsExtractedFields.size(), 2);
+    }
+
 }

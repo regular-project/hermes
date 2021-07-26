@@ -15,7 +15,7 @@ class RedisCache extends DefaultCache {
     }
 
     @Override
-    boolean isElementInCache(CacheableElement element) {
+    public boolean isElementInCache(CacheableElement element) {
         boolean result = false;
 
         String elementHash = String.valueOf(element.hashCode());

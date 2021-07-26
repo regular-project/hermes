@@ -5,19 +5,6 @@
   "version": "1",
   "fields": [
     {
-      "name": "RecordType",
-      "doc": "Defines is need to analyze record for the new products",
-      "type": {
-        "type": "enum",
-        "name": "RecordType",
-        "symbols": [
-          "NEW",
-          "RESTOCK"
-        ]
-      },
-      "default": "NEW"
-    },
-    {
       "name": "ExtractedProducts",
       "type": {
         "type": "array",
@@ -56,26 +43,24 @@
       }
     },
     {
-      "name": "ConstantFields",
-      "doc": "Fields is designed for transferring some settings properties",
+      "name": "ConstantsFields",
       "type": {
         "type": "array",
-        "items": [
-          {
-            "type": "record",
-            "name": "ConstantField",
-            "fields": [
-              {
-                "name": "Key",
-                "type": "string"
-              },
-              {
-                "name": "Value",
-                "type": "string"
-              }
-            ]
-          }
-        ]
+        "items": {
+          "type": "record",
+          "name": "ConstantField",
+          "doc": "Field with some static info",
+          "fields": [
+            {
+              "name": "Key",
+              "type": "string"
+            },
+            {
+              "name": "Value",
+              "type": "string"
+            }
+          ]
+        }
       }
     }
   ]

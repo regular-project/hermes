@@ -1,5 +1,7 @@
 package org.hermes.core.cache;
 
+import org.springframework.scheduling.annotation.Scheduled;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.locks.ReentrantLock;
@@ -13,8 +15,13 @@ class MemoryCache extends DefaultCache {
         super(cacheValidInterval);
     }
 
+    @Scheduled(cron = "* */${hermes.cache.clear-interval} * *")
+    public void clearMemoryCache() {
+        cache.clear();
+    }
+
     @Override
-    boolean isElementInCache(CacheableElement element) {
+    public boolean isElementInCache(CacheableElement element) {
         boolean result = false;
 
         lock.lock();

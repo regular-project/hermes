@@ -1,7 +1,15 @@
 package org.hermes.htmlhandler.extraction;
 
-import org.hermes.core.avro.*;
+import org.hermes.core.avro.HermesEgressRecord;
+import org.hermes.core.avro.ExtractedField;
+import org.hermes.core.avro.ParentNodeDataType;
+import org.hermes.core.avro.ScrapingField;
+import org.hermes.core.avro.OutputType;
+import org.hermes.core.avro.SelectorParam;
+import org.hermes.core.avro.ExtractingParams;
+import org.hermes.core.avro.HermesIngressRecord;
 import org.hermes.core.extraction.DataExtractor;
+import org.hermes.htmlhandler.util.HtmlExtractionException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -12,74 +20,64 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.hermes.htmlhandler.util.HtmlExtractionUtil.extractMultipleStringValueByAttr;
+import static org.hermes.htmlhandler.util.HtmlExtractionUtil.extractMultipleStringValueByText;
+import static org.hermes.htmlhandler.util.HtmlExtractionUtil.extractSingleStringValueByAttr;
+import static org.hermes.htmlhandler.util.HtmlExtractionUtil.extractSingleStringValueByText;
+
 @Component
 public class HtmlDataExtractor implements DataExtractor {
 
     @Override
-    public HermesEgressRecord extract(HermesIngressRecord record) {
+    public HermesEgressRecord extract(HermesIngressRecord record) throws HtmlExtractionException {
         List<List<ExtractedField>> listOfProducts = new ArrayList<>();
 
-        Document document = Jsoup.parse(record.getData());
         ExtractingParams extractingParams = record.getExtractingParams();
-        Elements parentsElements = document.select(extractingParams.getParentNode());
 
-        if (extractingParams.getRecordType().equals(RecordType.NEW)) {
-            for (Element parentElement: parentsElements) {
-                List<ExtractedField> extractedFieldList = extractFieldsFromElement(parentElement, extractingParams);
+        try {
+            Document document = Jsoup.parse(record.getData());
+            List<ScrapingField> scrapingFields = extractingParams.getScrapingFields();
 
-                listOfProducts.add(extractedFieldList);
+            if (extractingParams.getParentNodeDataType().equals(ParentNodeDataType.LIST)) {
+                document.select(extractingParams.getParentNode())
+                        .forEach(parentElement ->
+                                listOfProducts.add(extractFieldsFromElement(parentElement, scrapingFields))
+                        );
+            } else {
+                listOfProducts.add(extractFieldsFromElement(document, scrapingFields));
             }
-        } else {
-            List<ExtractedField> extractedFieldList = extractFieldsFromElement(document, extractingParams);
-
-            listOfProducts.add(extractedFieldList);
+        } catch (Exception e) {
+            throw new HtmlExtractionException("An error occurred in html extractor", e);
         }
 
-        return new HermesEgressRecord(extractingParams.getRecordType(), listOfProducts, record.getConstantFields());
+        return new HermesEgressRecord(listOfProducts, record.getConstantsFields());
     }
 
-    private List<ExtractedField> extractFieldsFromElement(Element element, ExtractingParams extractingParams) {
-        List<ExtractedField> extractedFieldList = new ArrayList<>(extractingParams.getScrapingFields().size());
+    private List<ExtractedField> extractFieldsFromElement(Element element, List<ScrapingField> scrapingFields) {
+        return scrapingFields.stream().map(scrapingField ->
+                new ExtractedField(
+                        scrapingField.getOutputName(),
+                        scrapingField.getOutputType(),
+                        extractValue(element, scrapingField)
+                )).collect(Collectors.toList());
 
-        for (ScrapingField scrapingField: extractingParams.getScrapingFields()) {
-            String extractedValue;
+    }
 
-            if (scrapingField.getOutputType().equals(OutputType.MULTIPLE)) {
-                Elements elements =  element.select(scrapingField.getSelector());
+    private String extractValue(Element element, ScrapingField scrapingField) {
+        if (scrapingField.getOutputType().equals(OutputType.MULTIPLE)) {
+            Elements elements = element.select(scrapingField.getSelector());
 
-                if (scrapingField.getSelectorParam().equals(SelectorParam.ATTR)) {
-
-                    extractedValue = elements.stream()
-                            .map((element1) -> element1.attr(scrapingField.getAttributeName()))
-                            .collect(Collectors.toList())
-                            .toString();
-                } else {
-                    extractedValue = elements.stream()
-                            .map(Element::text)
-                            .collect(Collectors.toList())
-                            .toString();
-                }
+            if (scrapingField.getSelectorParam().equals(SelectorParam.TEXT)) {
+                return extractMultipleStringValueByText(elements);
             } else {
-                if (scrapingField.getSelectorParam().equals(SelectorParam.ATTR)) {
-                    extractedValue = element
-                            .select(scrapingField.getSelector())
-                            .get(0)
-                            .attr(scrapingField.getAttributeName());
-                } else {
-                    extractedValue = element
-                            .select(scrapingField.getSelector())
-                            .get(0)
-                            .text();
-                }
+                return extractMultipleStringValueByAttr(elements, scrapingField.getAttributeName());
             }
-
-            extractedFieldList.add(new ExtractedField(
-                    scrapingField.getOutputName(),
-                    scrapingField.getOutputType(),
-                    extractedValue)
-            );
+        } else {
+            if (scrapingField.getSelectorParam().equals(SelectorParam.TEXT)) {
+                return extractSingleStringValueByText(element, scrapingField.getSelector());
+            } else {
+                return extractSingleStringValueByAttr(element, scrapingField);
+            }
         }
-
-        return extractedFieldList;
     }
 }

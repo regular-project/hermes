@@ -1,7 +1,6 @@
 package org.hermes.core.config;
 
-import org.hermes.core.cache.CombinedCache;
-import org.hermes.core.cache.CombinedCacheFactory;
+import org.hermes.core.cache.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,5 +26,10 @@ public class CacheConfig {
     @Bean
     public CombinedCache combinedCache() {
         return CombinedCacheFactory.getRedisBasedCombinedCache(cacheValidInterval, jedis());
+    }
+
+    @Bean
+    public DefaultCache defaultCache() {
+        return DefaultCacheFactory.getRedisBasedDefaultCache(cacheValidInterval, jedis());
     }
 }

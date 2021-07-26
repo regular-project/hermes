@@ -17,17 +17,17 @@
         "name": "ExtractingParams",
         "fields": [
           {
-            "name": "RecordType",
-            "doc": "Defines is need to analyze record for the new products",
+            "name": "ParentNodeDataType",
+            "doc": "Defines data structure of returned extractor fields products",
             "type": {
               "type": "enum",
-              "name": "RecordType",
+              "name": "ParentNodeDataType",
               "symbols": [
-                "NEW",
-                "RESTOCK"
+                "SINGLE",
+                "LIST"
               ]
             },
-            "default": "NEW"
+            "default": "LIST"
           },
           {
             "name": "ParentNode",
@@ -100,26 +100,24 @@
       }
     },
     {
-      "name": "ConstantFields",
-      "doc": "Fields is designed for transferring some settings properties",
+      "name": "ConstantsFields",
       "type": {
         "type": "array",
-        "items": [
-          {
-            "type": "record",
-            "name": "ConstantField",
-            "fields": [
-              {
-                "name": "Key",
-                "type": "string"
-              },
-              {
-                "name": "Value",
-                "type": "string"
-              }
-            ]
-          }
-        ]
+        "items": {
+          "type": "record",
+          "name": "ConstantField",
+          "doc": "Field with some static info",
+          "fields": [
+            {
+              "name": "Key",
+              "type": "string"
+            },
+            {
+              "name": "Value",
+              "type": "string"
+            }
+          ]
+        }
       }
     }
   ]
