@@ -5,7 +5,6 @@ plugins {
 
 dependencies {
     implementation project(':core')
-
     implementation group: 'org.springframework.kafka', name: 'spring-kafka'
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter'
 }

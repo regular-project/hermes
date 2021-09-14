@@ -8,12 +8,9 @@ hermes:
     html:
       status: true
       topic: html-extraction
-      file-name: HmtlData.html
+      file-name: HtmlData.html
     json:
-      status: false
+      status: true
       topic: json-extraction
       file-name: JsonData.json
-spring:
-  kafka:
-    consumer:
 
