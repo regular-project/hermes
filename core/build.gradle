@@ -7,8 +7,12 @@ plugins {
 }
 
 dependencies {
-    implementation group: 'org.springframework', name: 'spring-context', version: '4.2.0.RELEASE'
     implementation group: 'org.springframework.kafka', name: 'spring-kafka'
+    implementation group: 'org.springframework.boot', name: 'spring-boot-starter-actuator'
+    implementation group: 'org.springframework', name: 'spring-context', version: '4.2.0.RELEASE'
+
+    implementation group: 'io.micrometer', name: 'micrometer-registry-prometheus', version: '1.7.2'
+    implementation group: 'io.micrometer', name: 'micrometer-core', version: '1.7.2'
 
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.3.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.3.1'

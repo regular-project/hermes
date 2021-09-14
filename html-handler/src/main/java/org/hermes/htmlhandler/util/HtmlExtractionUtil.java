@@ -1,6 +1,6 @@
 package org.hermes.htmlhandler.util;
 
-import org.hermes.core.avro.ScrapingField;
+import org.hermes.core.avro.HtmlScrapingField;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
@@ -30,7 +30,7 @@ public final class HtmlExtractionUtil {
                 .text();
     }
 
-    public static String extractSingleStringValueByAttr(Element element, ScrapingField scrapingField) {
+    public static String extractSingleStringValueByAttr(Element element, HtmlScrapingField scrapingField) {
         return element
                 .selectFirst(scrapingField.getSelector())
                 .attr(scrapingField.getAttributeName());

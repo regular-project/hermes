@@ -1,12 +1,12 @@
 {
   "type": "record",
   "namespace": "org.hermes.core.avro",
-  "name": "HermesIngressRecord",
+  "name": "HermesJsonIngressRecord",
   "version": "1",
   "fields": [
     {
       "name": "Data",
-      "doc": "Contains source code",
+      "doc": "Contains input content",
       "type": "string"
     },
     {
@@ -14,24 +14,24 @@
       "doc": "Contains properties that tell how data will be processed",
       "type": {
         "type": "record",
-        "name": "ExtractingParams",
+        "name": "JsonExtractingParams",
         "fields": [
           {
-            "name": "ParentNodeDataType",
-            "doc": "Defines data structure of returned extractor fields products",
+            "name": "ParentType",
+            "doc": "Defines parent that selector to be applied to",
             "type": {
               "type": "enum",
-              "name": "ParentNodeDataType",
+              "name": "ParentType",
               "symbols": [
-                "SINGLE",
-                "LIST"
+                "DATA",
+                "CUSTOM"
               ]
             },
-            "default": "LIST"
+            "default": "DATA"
           },
           {
-            "name": "ParentNode",
-            "doc": "Selector path to parent element that will be used to define extracted values",
+            "name": "ParentSelector",
+            "doc": "Selector path to parent node",
             "type": [
               "null",
               "string"
@@ -40,11 +40,11 @@
           },
           {
             "name": "ScrapingFields",
-            "doc": "The array of the fields that describes rules of processing data",
+            "doc": "Describes processing data into ExtractedFields",
             "type": {
               "type": "array",
               "items": {
-                "name": "ScrapingField",
+                "name": "JsonScrapingField",
                 "type": "record",
                 "fields": [
                   {
@@ -54,43 +54,21 @@
                   },
                   {
                     "name": "Selector",
-                    "doc": "Selector is the rule showing how the core will try to get the desired field",
+                    "doc": "Path to the necessary element",
                     "type": "string"
                   },
                   {
-                    "name": "SelectorParam",
-                    "doc": "Pointer from where need to scrape value",
+                    "name": "OutputQuantity",
+                    "doc": "Defines if result quantity will be single type or array",
                     "type": {
                       "type": "enum",
-                      "name": "SelectorParam",
-                      "symbols": [
-                        "TEXT",
-                        "ATTR"
-                      ]
-                    },
-                    "default": "TEXT"
-                  },
-                  {
-                    "name": "AttributeName",
-                    "docs": "Tell from what attribute we need to take value",
-                    "type": [
-                      "null",
-                      "string"
-                    ],
-                    "default": null
-                  },
-                  {
-                    "name": "OutputType",
-                    "doc": "Defines object will be single type or array",
-                    "type": {
-                      "type": "enum",
-                      "name": "OutputType",
+                      "name": "OutputQuantity",
                       "symbols": [
                         "SINGLE",
                         "MULTIPLE"
                       ]
                     },
-                    "default": "MULTIPLE"
+                    "default": "SINGLE"
                   }
                 ]
               }
@@ -100,7 +78,8 @@
       }
     },
     {
-      "name": "ConstantsFields",
+      "name": "ConstantFields",
+      "doc": "Array of key-value objects, which will be passed without processing to HermesEgressRecord",
       "type": {
         "type": "array",
         "items": {

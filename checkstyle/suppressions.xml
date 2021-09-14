@@ -4,7 +4,7 @@
         "-//Checkstyle//DTD SuppressionFilter Configuration 1.0//EN"
         "https://checkstyle.org/dtds/suppressions_1_0.dtd">
 <suppressions>
-    <suppress checks="HideUtilityClassConstructor" files="DevelopProducerApplication.java"/>
+    <suppress checks="HideUtilityClassConstructor" files="ProducerInitializerApplication.java"/>
     <suppress checks="HideUtilityClassConstructor" files="JsonHandlerApplication.java"/>
     <suppress checks="HideUtilityClassConstructor" files="HtmlHandlerApplication.java"/>
 </suppressions>

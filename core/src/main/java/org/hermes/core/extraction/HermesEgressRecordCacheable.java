@@ -22,7 +22,10 @@ public class HermesEgressRecordCacheable extends CacheableElement {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         HermesEgressRecordCacheable that = (HermesEgressRecordCacheable) o;
-        return Objects.equals(hermesEgressRecord.getExtractedProducts(), that.hermesEgressRecord.getExtractedProducts());
+        return Objects.equals(
+                hermesEgressRecord.getExtractedProducts(),
+                that.hermesEgressRecord.getExtractedProducts()
+        );
     }
 
     @Override

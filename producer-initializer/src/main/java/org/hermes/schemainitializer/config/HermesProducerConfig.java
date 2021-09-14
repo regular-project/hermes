@@ -1,11 +1,11 @@
-package org.hermes.developproducer.config;
+package org.hermes.schemainitializer.config;
 
 
 import io.confluent.kafka.serializers.AbstractKafkaSchemaSerDeConfig;
 import io.confluent.kafka.serializers.KafkaAvroSerializer;
+import org.apache.avro.specific.SpecificRecord;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
-import org.hermes.core.avro.HermesIngressRecord;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @Configuration
-public class HermesDevelopProducerConfig {
+public class HermesProducerConfig {
 
     @Value("${hermes.kafka.bootstrap-servers}")
     private List<String> bootstrapServers;
@@ -26,7 +26,7 @@ public class HermesDevelopProducerConfig {
     private String schemaRegistryUrl;
 
     @Bean
-    public DefaultKafkaProducerFactory<String, HermesIngressRecord> producerFactory() {
+    public DefaultKafkaProducerFactory<String, SpecificRecord> producerFactory() {
         Map<String, Object> props = new HashMap<>();
 
         props.put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, bootstrapServers);
@@ -40,7 +40,7 @@ public class HermesDevelopProducerConfig {
     }
 
     @Bean
-    public KafkaTemplate<String, HermesIngressRecord> kafkaTemplate() {
+    public KafkaTemplate<String, SpecificRecord> kafkaTemplate() {
         return new KafkaTemplate<>(producerFactory());
     }
 }

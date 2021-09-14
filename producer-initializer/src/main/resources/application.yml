@@ -1,0 +1,19 @@
+hermes:
+  kafka:
+    bootstrap-servers: localhost:9092
+    schema-registry-url: http://localhost:8081
+    producer:
+      key: producer-schema-initializer
+  initializer:
+    html:
+      status: true
+      topic: html-extraction
+      file-name: HmtlData.html
+    json:
+      status: false
+      topic: json-extraction
+      file-name: JsonData.json
+spring:
+  kafka:
+    consumer:
+

@@ -1,9 +1,9 @@
 package org.hermes.core.service;
 
 import lombok.extern.slf4j.Slf4j;
+import org.apache.avro.specific.SpecificRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.hermes.core.avro.HermesEgressRecord;
-import org.hermes.core.avro.HermesIngressRecord;
 import org.hermes.core.extraction.DataExtractor;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +17,11 @@ public class HermesExtractorService {
         this.dataExtractor = dataExtractor;
     }
 
-    public HermesEgressRecord extract(ConsumerRecord<String, HermesIngressRecord> record)  {
+    public HermesEgressRecord extract(ConsumerRecord<String, SpecificRecord> record)  {
         HermesEgressRecord extractionResult = null;
 
         try {
-            HermesIngressRecord hermesRecord = record.value();
+            SpecificRecord hermesRecord = record.value();
             extractionResult = dataExtractor.extract(hermesRecord);
         } catch (Exception e) {
             log.error("Error occurred in {} during extracting the data from the record with offset: {}",

@@ -9,7 +9,12 @@ hermes:
       topic: analyzer-service
       key: html-handler
   cache:
-    valid-interval: 60000
+    valid-interval: 20000
     redis:
       host: localhost
       port: 6379
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus
