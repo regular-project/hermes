@@ -15,6 +15,7 @@ public final class ProviderUtils {
         URL url = ProviderUtils.class.getClassLoader().getResource("templates/" + fileName);
         DataInputStream reader;
         try {
+
             reader = new DataInputStream(new FileInputStream(url.getFile()));
             int nBytesToRead = reader.available();
             if (nBytesToRead > 0) {
