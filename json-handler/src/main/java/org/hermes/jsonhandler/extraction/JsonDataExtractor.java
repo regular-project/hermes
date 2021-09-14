@@ -11,12 +11,11 @@ import org.hermes.core.avro.JsonScrapingField;
 import org.hermes.core.avro.ParentType;
 import org.hermes.core.extraction.DataExtractor;
 import org.hermes.core.utils.exception.ExtractorException;
-import org.hermes.jsonhandler.util.JsonScrapingFieldProcessor;
+import org.hermes.jsonhandler.processor.JsonScrapingFieldProcessor;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class JsonDataExtractor implements DataExtractor {
@@ -32,16 +31,15 @@ public class JsonDataExtractor implements DataExtractor {
 
         try {
             JsonNode dataNode = mapper.readTree(hermesIngressRecord.getData());
-            List<JsonScrapingField> scrapingFields = extractingParams.getScrapingFields();
 
             if (extractingParams.getParentType().equals(ParentType.CUSTOM)) {
                 JsonNode customParentNodes = dataNode.at(extractingParams.getParentSelector());
 
                 for (JsonNode jsonNode: customParentNodes) {
-                    productsList.add(extractFieldsFromElement(jsonNode, scrapingFields));
+                    productsList.add(extractFieldsFromElement(jsonNode, extractingParams.getScrapingFields()));
                 }
             } else {
-                productsList.add(extractFieldsFromElement(dataNode, scrapingFields));
+                productsList.add(extractFieldsFromElement(dataNode, extractingParams.getScrapingFields()));
             }
         } catch (Exception e) {
             throw new ExtractorException("An error occurred in json extractor", e);
@@ -51,10 +49,14 @@ public class JsonDataExtractor implements DataExtractor {
     }
 
     private List<ExtractedField> extractFieldsFromElement(JsonNode jsonNode, List<JsonScrapingField> scrapingFields) {
-        return scrapingFields.stream().map(scrapingField -> {
-            JsonScrapingFieldProcessor processor = (JsonScrapingFieldProcessor) scrapingFields;
+        List<ExtractedField> extractedFields = new ArrayList<>();
 
-            return processor.processScrapingField(jsonNode, scrapingField);
-        }).collect(Collectors.toList());
+        for (JsonScrapingField jsonScrapingField: scrapingFields) {
+            JsonScrapingFieldProcessor processor = (JsonScrapingFieldProcessor) jsonScrapingField;
+
+            extractedFields.add(processor.processScrapingField(jsonNode));
+        }
+
+        return extractedFields;
     }
 }
