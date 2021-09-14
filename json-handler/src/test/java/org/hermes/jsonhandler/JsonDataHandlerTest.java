@@ -35,5 +35,3 @@ class JsonDataHandlerTest {
 //    private HermesIngressRecord prepareHermesIngressRecord(OutputType outputType) {
 //        return null;
 //    }
-
-}
