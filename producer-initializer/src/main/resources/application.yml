@@ -6,7 +6,7 @@ hermes:
       key: producer-schema-initializer
   initializer:
     html:
-      status: true
+      status: false
       topic: html-extraction
       file-name: HtmlData.html
     json:

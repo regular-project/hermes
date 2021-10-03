@@ -8,10 +8,10 @@ public final class JsonExtractionUtil {
     private JsonExtractionUtil() { }
 
     public static String extractMultipleValue(JsonNode jsonNode, JsonScrapingField scrapingField) {
-        return jsonNode.at(scrapingField.getSelector()).asText();
+        return jsonNode.findValuesAsText(scrapingField.getSelector()).toString();
     }
 
     public static String extractSingleValue(JsonNode jsonNode, JsonScrapingField scrapingField) {
-        return jsonNode.at(scrapingField.getSelector()).asText();
+        return jsonNode.findValue(scrapingField.getSelector()).asText();
     }
 }

@@ -8,10 +8,11 @@ import org.hermes.core.avro.HermesEgressRecord;
 import org.hermes.core.avro.HermesJsonIngressRecord;
 import org.hermes.core.avro.JsonExtractingParams;
 import org.hermes.core.avro.JsonScrapingField;
+import org.hermes.core.avro.OutputQuantity;
 import org.hermes.core.avro.ParentType;
 import org.hermes.core.extraction.DataExtractor;
-import org.hermes.core.utils.exception.ExtractorException;
-import org.hermes.jsonhandler.processor.JsonScrapingFieldProcessor;
+import org.hermes.core.util.exception.ExtractorException;
+import org.hermes.jsonhandler.util.JsonExtractionUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -52,11 +53,27 @@ public class JsonDataExtractor implements DataExtractor {
         List<ExtractedField> extractedFields = new ArrayList<>();
 
         for (JsonScrapingField jsonScrapingField: scrapingFields) {
-            JsonScrapingFieldProcessor processor = (JsonScrapingFieldProcessor) jsonScrapingField;
-
-            extractedFields.add(processor.processScrapingField(jsonNode));
+            extractedFields.add(extractField(jsonScrapingField, jsonNode));
         }
 
         return extractedFields;
+    }
+
+    private ExtractedField extractField(JsonScrapingField jsonScrapingField, JsonNode jsonNode) {
+        String extractedValue;
+
+        ExtractedField extractedField = ExtractedField.newBuilder()
+                .setOutputQuantity(jsonScrapingField.getOutputQuantity())
+                .setOutputName(jsonScrapingField.getOutputName()).build();
+
+        if (jsonScrapingField.getOutputQuantity().equals(OutputQuantity.MULTIPLE)) {
+            extractedValue = JsonExtractionUtil.extractMultipleValue(jsonNode, jsonScrapingField);
+        } else {
+            extractedValue = JsonExtractionUtil.extractSingleValue(jsonNode, jsonScrapingField);
+        }
+
+        extractedField.setOutputValue(extractedValue);
+
+        return extractedField;
     }
 }

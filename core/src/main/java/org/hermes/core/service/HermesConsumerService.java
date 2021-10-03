@@ -21,7 +21,7 @@ public class HermesConsumerService {
     public HermesConsumerService(HermesExtractorService hermesExtractorService, ApplicationEventPublisher publisher) {
         this.hermesExtractorService = hermesExtractorService;
         this.publisher = publisher;
-        this.executorService = Executors.newCachedThreadPool();
+        this.executorService = Executors.newFixedThreadPool(30);
     }
 
     @KafkaListener(topics = "${hermes.kafka.consumer.topic}")

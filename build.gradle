@@ -22,6 +22,7 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'checkstyle'
+    apply plugin: 'application'
     apply plugin: 'io.spring.dependency-management'
 
     repositories {
@@ -53,12 +54,6 @@ subprojects {
         configDirectory = rootProject.file('./checkstyle')
         checkstyleMain.source = "src/main/java"
         checkstyleTest.enabled = false
-    }
-
-    dependencyManagement {
-        imports {
-            mavenBom("org.springframework.boot:spring-boot-dependencies:2.1.7.RELEASE")
-        }
     }
 }
 

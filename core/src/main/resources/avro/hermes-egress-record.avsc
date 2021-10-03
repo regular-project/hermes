@@ -22,7 +22,8 @@
               {
                 "name": "outputValue",
                 "type": "string",
-                "doc": "Value"
+                "doc": "Value",
+                "default": ""
               },
               {
                 "name": "OutputQuantity",

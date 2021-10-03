@@ -10,7 +10,7 @@ import org.hermes.core.avro.OutputQuantity;
 import org.hermes.core.avro.ParentType;
 import org.hermes.core.avro.SelectorParam;
 import org.hermes.core.extraction.DataExtractor;
-import org.hermes.core.utils.exception.ExtractorException;
+import org.hermes.core.util.exception.ExtractorException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;

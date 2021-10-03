@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -46,12 +47,18 @@ public class JsonProvider implements Provider {
     }
 
     private List<JsonScrapingField> getScrapingField() {
-        JsonScrapingField scrapingField = JsonScrapingField.newBuilder()
-                .setOutputName("id")
+        JsonScrapingField singleScrapingField = JsonScrapingField.newBuilder()
+                .setOutputName("name")
                 .setOutputQuantity(OutputQuantity.SINGLE)
-                .setSelector("/menu/id")
+                .setSelector("name")
                 .build();
 
-        return Collections.singletonList(scrapingField);
+        JsonScrapingField multipleScrapingField = JsonScrapingField.newBuilder()
+                .setOutputName("first-name")
+                .setOutputQuantity(OutputQuantity.MULTIPLE)
+                .setSelector("size")
+                .build();
+
+        return Arrays.asList(singleScrapingField, multipleScrapingField);
     }
 }

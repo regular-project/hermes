@@ -1,4 +1,4 @@
-package org.hermes.core.utils.exception;
+package org.hermes.core.util.exception;
 
 public class ExtractorException extends RuntimeException {
 

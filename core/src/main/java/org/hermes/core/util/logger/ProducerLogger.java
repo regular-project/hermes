@@ -1,4 +1,4 @@
-package org.hermes.core.utils.logger;
+package org.hermes.core.util.logger;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
