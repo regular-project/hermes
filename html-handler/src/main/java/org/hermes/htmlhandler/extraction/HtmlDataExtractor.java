@@ -67,20 +67,28 @@ public class HtmlDataExtractor implements DataExtractor {
     }
 
     private String extractValue(Element element, HtmlScrapingField scrapingField) {
-        if (scrapingField.getOutputQuantity().equals(OutputQuantity.MULTIPLE)) {
-            Elements elements = element.select(scrapingField.getSelector());
+        String result = "";
 
-            if (scrapingField.getSelectorParam().equals(SelectorParam.TEXT)) {
-                return extractMultipleStringValueByText(elements);
+        try {
+            if (scrapingField.getOutputQuantity().equals(OutputQuantity.MULTIPLE)) {
+                Elements elements = element.select(scrapingField.getSelector());
+
+                if (scrapingField.getSelectorParam().equals(SelectorParam.TEXT)) {
+                    result = extractMultipleStringValueByText(elements);
+                } else {
+                    result = extractMultipleStringValueByAttr(elements, scrapingField.getAttributeName());
+                }
             } else {
-                return extractMultipleStringValueByAttr(elements, scrapingField.getAttributeName());
+                if (scrapingField.getSelectorParam().equals(SelectorParam.TEXT)) {
+                    result = extractSingleStringValueByText(element, scrapingField.getSelector());
+                } else {
+                    result = extractSingleStringValueByAttr(element, scrapingField);
+                }
             }
-        } else {
-            if (scrapingField.getSelectorParam().equals(SelectorParam.TEXT)) {
-                return extractSingleStringValueByText(element, scrapingField.getSelector());
-            } else {
-                return extractSingleStringValueByAttr(element, scrapingField);
-            }
+        } catch (Exception e) {
+
         }
+
+        return result;
     }
 }

@@ -4,6 +4,7 @@ import org.hermes.core.avro.HtmlScrapingField;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public final class HtmlExtractionUtil {
@@ -11,29 +12,27 @@ public final class HtmlExtractionUtil {
     private HtmlExtractionUtil() { }
 
     public static String extractMultipleStringValueByText(Elements elements) {
-            return elements.stream()
+            return Optional.ofNullable(elements.stream()
                     .map(Element::text)
                     .collect(Collectors.toList())
-                    .toString();
+                    .toString()).orElse("");
     }
 
     public static String extractMultipleStringValueByAttr(Elements elements, String attributeName) {
-        return elements.stream()
+        return Optional.ofNullable(elements.stream()
                 .map((element1) -> element1.attr(attributeName))
                 .collect(Collectors.toList())
-                .toString();
+                .toString()).orElse("");
     }
 
     public static String extractSingleStringValueByText(Element element, String selector) {
-        return element
-                .selectFirst(selector)
-                .text();
+        return Optional.ofNullable(element.selectFirst(selector).text()).orElse("");
     }
 
     public static String extractSingleStringValueByAttr(Element element, HtmlScrapingField scrapingField) {
-        return element
+        return Optional.ofNullable(element
                 .selectFirst(scrapingField.getSelector())
-                .attr(scrapingField.getAttributeName());
+                .attr(scrapingField.getAttributeName())).orElse("");
     }
 
 }
