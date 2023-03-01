@@ -6,10 +6,15 @@ hermes:
       group-id: hmtl-handler
       topic: html-extraction
     producer:
-      topic: egress-html-data
+      topic: analyzer-service
       key: html-handler
   cache:
-    valid-interval: 15000
+    valid-interval: 20000
     redis:
       host: localhost
       port: 6379
+management:
+  endpoints:
+    web:
+      exposure:
+        include: prometheus

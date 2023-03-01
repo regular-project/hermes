@@ -41,3 +41,10 @@ scrape_configs:
     static_configs:
       - targets:
           - zookeeper:9030
+  - job_name: 'hermes'
+    scrape_interval: 10s
+    scrape_timeout: 10s
+    metrics_path: /actuator/prometheus
+    static_configs:
+      - targets:
+          - 192.168.1.99:8080

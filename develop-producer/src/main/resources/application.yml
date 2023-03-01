@@ -1,7 +1,0 @@
-hermes:
-  kafka:
-    bootstrap-servers: localhost:9092
-    schema-registry-url: http://localhost:8081
-    producer:
-      topic: json-extraction
-      key: develop-producer

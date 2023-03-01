@@ -1,11 +1,16 @@
 package org.hermes.htmlhandler.extraction;
 
+import org.apache.avro.specific.SpecificRecord;
+import org.hermes.core.avro.ExtractedField;
 import org.hermes.core.avro.HermesEgressRecord;
-import org.hermes.core.avro.HermesIngressRecord;
-import org.hermes.core.avro.ExtractionField;
-import org.hermes.core.avro.Field;
-import org.hermes.core.avro.OutputType;
+import org.hermes.core.avro.HermesHtmlIngressRecord;
+import org.hermes.core.avro.HtmlExtractingParams;
+import org.hermes.core.avro.HtmlScrapingField;
+import org.hermes.core.avro.OutputQuantity;
+import org.hermes.core.avro.ParentType;
+import org.hermes.core.avro.SelectorParam;
 import org.hermes.core.extraction.DataExtractor;
+import org.hermes.core.util.exception.ExtractorException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -16,34 +21,74 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static org.hermes.htmlhandler.util.HtmlExtractionUtil.extractMultipleStringValueByAttr;
+import static org.hermes.htmlhandler.util.HtmlExtractionUtil.extractMultipleStringValueByText;
+import static org.hermes.htmlhandler.util.HtmlExtractionUtil.extractSingleStringValueByAttr;
+import static org.hermes.htmlhandler.util.HtmlExtractionUtil.extractSingleStringValueByText;
+
 @Component
 public class HtmlDataExtractor implements DataExtractor {
 
     @Override
-    public HermesEgressRecord extract(HermesIngressRecord record) {
-        List<ExtractionField> extractionFieldList = new ArrayList<>(record.getFields().size());
-        Document document = Jsoup.parse(record.getData());
+    public HermesEgressRecord extract(SpecificRecord record) {
+        List<List<ExtractedField>> productsList = new ArrayList<>();
 
-        for (Field field : record.getFields()) {
-            ExtractionField.Builder extractionFieldBuilder = ExtractionField.newBuilder()
-                .setOutputName(field.getOutputName())
-                .setOutputType(field.getOutputType());
+        HermesHtmlIngressRecord hermesIngressRecord = (HermesHtmlIngressRecord) record;
+        HtmlExtractingParams extractingParams = hermesIngressRecord.getExtractingParams();
 
-            Elements elements = document.select(field.getSelector());
+        try {
+            Document document = Jsoup.parse(hermesIngressRecord.getData());
+            List<HtmlScrapingField> scrapingFields = extractingParams.getScrapingFields();
 
-            if (field.getOutputType().equals(OutputType.SINGLE)) {
-                String firstStr = elements.get(0).text();
+            if (extractingParams.getParentType().equals(ParentType.CUSTOM)) {
+                Elements customParentNodes = document.select(extractingParams.getParentSelector());
 
-                extractionFieldBuilder.setOutputValue(firstStr);
+                for (Element parentNode: customParentNodes) {
+                    productsList.add(extractFieldsFromElement(parentNode, scrapingFields));
+                }
             } else {
-                String outputValue = elements.stream().map(Element::text).collect(Collectors.toList()).toString();
-
-                extractionFieldBuilder.setOutputValue(outputValue);
+                productsList.add(extractFieldsFromElement(document, scrapingFields));
             }
-
-            extractionFieldList.add(extractionFieldBuilder.build());
+        } catch (Exception e) {
+            throw new ExtractorException("An error occurred in html extractor", e);
         }
 
-        return new HermesEgressRecord(extractionFieldList);
+        return new HermesEgressRecord(productsList, hermesIngressRecord.getConstantFields());
+    }
+
+    private List<ExtractedField> extractFieldsFromElement(Element element, List<HtmlScrapingField> scrapingFields) {
+        return scrapingFields.stream().map(scrapingField ->
+                    ExtractedField.newBuilder()
+                            .setOutputName(scrapingField.getOutputName())
+                            .setOutputValue(extractValue(element, scrapingField))
+                            .setOutputQuantity(scrapingField.getOutputQuantity())
+                            .build())
+                .collect(Collectors.toList());
+    }
+
+    private String extractValue(Element element, HtmlScrapingField scrapingField) {
+        String result = "";
+
+        try {
+            if (scrapingField.getOutputQuantity().equals(OutputQuantity.MULTIPLE)) {
+                Elements elements = element.select(scrapingField.getSelector());
+
+                if (scrapingField.getSelectorParam().equals(SelectorParam.TEXT)) {
+                    result = extractMultipleStringValueByText(elements);
+                } else {
+                    result = extractMultipleStringValueByAttr(elements, scrapingField.getAttributeName());
+                }
+            } else {
+                if (scrapingField.getSelectorParam().equals(SelectorParam.TEXT)) {
+                    result = extractSingleStringValueByText(element, scrapingField.getSelector());
+                } else {
+                    result = extractSingleStringValueByAttr(element, scrapingField);
+                }
+            }
+        } catch (Exception e) {
+
+        }
+
+        return result;
     }
 }

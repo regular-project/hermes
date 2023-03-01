@@ -5,6 +5,7 @@ import io.confluent.kafka.serializers.KafkaAvroSerializer;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringSerializer;
 import org.hermes.core.avro.HermesEgressRecord;
+import org.hermes.core.util.logger.ProducerLogger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +43,10 @@ public class HermesProducerConfig {
 
     @Bean
     public KafkaTemplate<String, HermesEgressRecord> kafkaTemplate() {
-        return new KafkaTemplate<>(producerFactory());
+        KafkaTemplate<String, HermesEgressRecord> kafkaTemplate = new KafkaTemplate<>(producerFactory());
+
+        kafkaTemplate.setProducerListener(new ProducerLogger());
+
+        return kafkaTemplate;
     }
 }

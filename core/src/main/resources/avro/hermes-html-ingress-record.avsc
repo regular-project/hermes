@@ -1,0 +1,125 @@
+{
+  "type": "record",
+  "namespace": "org.hermes.core.avro",
+  "name": "HermesHtmlIngressRecord",
+  "version": "1",
+  "fields": [
+    {
+      "name": "Data",
+      "doc": "Contains input content",
+      "type": "string"
+    },
+    {
+      "name": "ExtractingParams",
+      "doc": "Contains objects with description how data will be processed",
+      "type": {
+        "type": "record",
+        "name": "HtmlExtractingParams",
+        "fields": [
+          {
+            "name": "ParentType",
+            "doc": "Defines parent that selector to be applied to",
+            "type": {
+              "type": "enum",
+              "name": "ParentType",
+              "symbols": [
+                "DATA",
+                "CUSTOM"
+              ]
+            },
+            "default": "DATA"
+          },
+          {
+            "name": "ParentSelector",
+            "doc": "Selector path to parent node",
+            "type": [
+              "null",
+              "string"
+            ],
+            "default": null
+          },
+          {
+            "name": "ScrapingFields",
+            "doc": "Describes processing data into ExtractedFields",
+            "type": {
+              "type": "array",
+              "items": {
+                "name": "HtmlScrapingField",
+                "type": "record",
+                "fields": [
+                  {
+                    "name": "OutputName",
+                    "doc": "Name of the output field",
+                    "type": "string"
+                  },
+                  {
+                    "name": "Selector",
+                    "doc": "Path to the necessary element",
+                    "type": "string"
+                  },
+                  {
+                    "name": "SelectorParam",
+                    "doc": "Pointer from where need to scrape value",
+                    "type": {
+                      "type": "enum",
+                      "name": "SelectorParam",
+                      "symbols": [
+                        "TEXT",
+                        "ATTR"
+                      ]
+                    },
+                    "default": "TEXT"
+                  },
+                  {
+                    "name": "AttributeName",
+                    "docs": "Tell from what attribute we need to take value",
+                    "type": [
+                      "null",
+                      "string"
+                    ],
+                    "default": null
+                  },
+                  {
+                    "name": "OutputQuantity",
+                    "doc": "Defines if result quantity will be single type or array",
+                    "type": {
+                      "type": "enum",
+                      "name": "OutputQuantity",
+                      "symbols": [
+                        "SINGLE",
+                        "MULTIPLE"
+                      ]
+                    },
+                    "default": "SINGLE"
+                  }
+                ]
+              }
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "ConstantFields",
+      "doc": "Array of key-value objects, which will be passed without processing to HermesEgressRecord",
+      "type": {
+        "type": "array",
+        "items": {
+          "type": "record",
+          "name": "ConstantField",
+          "doc": "Field with some static info",
+          "fields": [
+            {
+              "name": "Key",
+              "type": "string"
+            },
+            {
+              "name": "Value",
+              "type": "string"
+            }
+          ]
+        }
+      }
+    }
+  ]
+}

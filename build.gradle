@@ -1,5 +1,6 @@
 plugins {
     id 'idea'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 }
 
 allprojects {
@@ -21,6 +22,12 @@ allprojects {
 subprojects {
     apply plugin: 'java'
     apply plugin: 'checkstyle'
+    apply plugin: 'application'
+    apply plugin: 'io.spring.dependency-management'
+
+    repositories {
+        jcenter()
+    }
 
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11

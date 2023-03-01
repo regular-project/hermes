@@ -5,35 +5,60 @@
   "version": "1",
   "fields": [
     {
-      "name": "extractedFields",
+      "name": "ExtractedProducts",
       "type": {
         "type": "array",
         "items": {
-          "name": "ExtractionField",
+          "type": "array",
+          "items": {
+            "type": "record",
+            "name": "ExtractedField",
+            "fields": [
+              {
+                "name": "outputName",
+                "type": "string",
+                "doc": "Name of the returning value"
+              },
+              {
+                "name": "outputValue",
+                "type": "string",
+                "doc": "Value",
+                "default": ""
+              },
+              {
+                "name": "OutputQuantity",
+                "doc": "Defines if data quantity will be single type or array",
+                "type": {
+                  "type": "enum",
+                  "name": "OutputQuantity",
+                  "symbols": [
+                    "SINGLE",
+                    "MULTIPLE"
+                  ]
+                },
+                "default": "MULTIPLE"
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "ConstantFields",
+      "type": {
+        "type": "array",
+        "items": {
           "type": "record",
+          "name": "ConstantField",
+          "doc": "Field with some static info",
           "fields": [
             {
-              "name": "output_name",
-              "type": "string",
-              "doc": "Name of the returning value"
+              "name": "Key",
+              "type": "string"
             },
             {
-              "name": "output_type",
-              "type": {
-                "type": "enum",
-                "name": "OutputType",
-                "symbols": [
-                  "SINGLE",
-                  "MULTIPLE"
-                ]
-              },
-              "default": "MULTIPLE",
-              "doc": "Enum defines object will be single object or array"
-            },
-            {
-              "name": "output_value",
-              "type": "string",
-              "doc": "Value"
+              "name": "Value",
+              "type": "string"
             }
           ]
         }

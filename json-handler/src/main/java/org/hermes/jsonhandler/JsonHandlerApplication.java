@@ -9,7 +9,6 @@ import org.springframework.context.annotation.ComponentScan;
 public class JsonHandlerApplication {
 
     public static void main(String[] args) {
-
         SpringApplication.run(JsonHandlerApplication.class, args);
     }
 

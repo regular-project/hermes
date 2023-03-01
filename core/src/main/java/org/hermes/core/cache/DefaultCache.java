@@ -1,6 +1,6 @@
 package org.hermes.core.cache;
 
-abstract class DefaultCache {
+public abstract class DefaultCache {
 
     private final Long cacheValidInterval;
 
@@ -8,7 +8,7 @@ abstract class DefaultCache {
         this.cacheValidInterval = cacheValidInterval;
     }
 
-    abstract boolean isElementInCache(CacheableElement element);
+    public abstract boolean isElementInCache(CacheableElement element);
 
     Long getCacheValidInterval() {
         return cacheValidInterval;
